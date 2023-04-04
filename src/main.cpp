@@ -1,14 +1,14 @@
 #include <Arduino.h>
 
 #include "LED.h"
-#include "Trockner.h"
+#include "Dryer.h"
 
 void setup(){
-  ledsetup();
-  Motorsetup();
+    ledsetup();
+    Motorsetup();
 }
 
 void loop(){
-  led_loop();
-  Motorloop();
+    led_loop();
+    Motorloop();
 }
