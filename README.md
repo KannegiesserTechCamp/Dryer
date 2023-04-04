@@ -127,7 +127,7 @@ Visual Studio Code:
 
 
 ## Wie funktioniert der Code im Großen und Ganzen? 
-Wir haben eine "Main". Diese enthält standartmäßig immer ein Setup (Definition der Outputs/Inputs) und ein Loop (Schleife), der immer wieder durchlaufen wird, bis keine Spannung mehr angeschlossen wird. 
+Wir haben eine "Main" Datei. Diese enthält standardmäßig immer ein Setup (Definition der Outputs/Inputs) und ein Loop (Schleife), der immer wieder durchlaufen wird, bis keine Spannung mehr angeschlossen wird. 
 Im Setup können jedoch auch Methoden und Funktionen aufgerufen werden, die nicht immer wieder wiederholt werden. 
 
 Wozu  .h und und .cpp?
