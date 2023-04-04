@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8"> 
+  <title>Eastercamp
+  </title>
+  <link href="design.css" rel="stylesheet">
+</head>
+<body>
+    <img src="logo.png" id="logo">
+    <h1>Easter-Tech-Camp <br>2023</h1>
+    <div id="controls">
+      <input class="button" type="button" id="left-button" value="&larr;" />
+      <input class="button" type="button" id="stop-button" value="Stop"/>
+      <input class="button" type="button" id="right-button" value="&rarr;"/>
+    </div>
+    <br/>
+    <div id="lightcontrols">
+      <input class="button" type="button" id="light-on" value="on"/>
+    </div>
+</body>
+<script>
+  const button_left = document.getElementById('left-button');
+  const button_stop = document.getElementById('stop-button');
+  const button_right = document.getElementById('right-button');
+
+  const button_light_on = document.getElementById('light-on');
+ 
+  async function postEmptyRequest(url)
+  {
+   try {     
+     const response = await fetch(url, {
+       method: 'post'
+     });
+   } catch(err) {
+     console.error(`Error: Tried to post on ${url} => ${err}`);
+   }
+  }
+ 
+  button_left.addEventListener('click', async _ => await postEmptyRequest("/movement/left"));
+  button_stop.addEventListener('click', async _ => await postEmptyRequest( "/movement/stop"));
+  button_right.addEventListener('click', async _ => await postEmptyRequest("/movement/right"));
+
+  button_light_on.addEventListener('click', async _ => await postEmptyRequest("/light"));
+ </script>
+</html>
+
