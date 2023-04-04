@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "Trockner.h"
+#include "Dryer.h"
 
 const int MOTOR_PIN_1 = 13;
 const int MOTOR_PIN_2 = 12;
