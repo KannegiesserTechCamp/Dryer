@@ -7,7 +7,7 @@
 - H-Brücke 
 
 zusätzlich wird zum Erstellen des Programms benötigt: 
-- USB-A Kabel mit USB-Micro-B (alte Ladekabel für Android-Handys)
+- USB-A Kabel mit USB-Micro-B (alte Ladekabel für z.B. Android-Handys)
 - Laptop mit Arduino IDE oder Visual Studio Code und PlatformIO-Erweiterung 
 
 ## Wichtige Benutzerhinweise
