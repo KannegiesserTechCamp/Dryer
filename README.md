@@ -131,14 +131,14 @@ Wir haben eine "Main" Datei. Diese enthält standardmäßig immer ein Setup (Def
 Im Setup können jedoch auch Methoden und Funktionen aufgerufen werden, die nicht immer wieder wiederholt werden. 
 
 Wozu  .h und und .cpp?
-Wir haben uns die Funktionen und den Setupcode des Trockners sowie der LED ausgelagert, sodass die Main übersichtlicher bleibt. Diese Funktionen und der Setupcode findet man in den jeweiligen .cpp. 
+Wir haben die Funktionen und den Setupcode des Trockners, sowie der LED, ausgelagert, sodass die Main übersichtlicher bleibt. Diese Funktionen und der Setupcode findet man in den jeweiligen .cpp. 
 Die .h Datei ist eine Besonderheit in der c-Programmierung und sorgt allein dafür, dass die Main weiß welche Funktionen sie auch verwenden darf aus den .cpp.
 
-Jetzt bleibt nur noch die Frage, was in der Main nun passiert. 
+## main.cpp:
 In der Main legen wir im Setup einen sogenannten Async-Webserver an. Außer Betracht lassen wir jetzt mal für was das Async gut ist. Viel wichtiger ist, dass es ein Webserver ist und dieser stellt unseren Server für die Website, die wir nachher aufrufen können. 
 Dieser bekommt zusätzlich noch die Information, dass er auf unseren HTML-Code, die CSS und unsere Bilddateien für die Website Zugriff hat, sodass der Server diese Website "bauen" kann. 
 Eine weitere Funktion hat er jedoch auch noch: Sobald er einen bestimmten Pfad bekommt (ausgelöst durch die Buttons der Oberfläche), ruft er die entsprechende Funktion unseres Trockners bzw. unserer LED auf. 
 
 Der HTML-Code beschreibt, was die Seite alles für Elemente besitzt und dass der Richtige Pfad aufgerufen wird, beim Button-Click. 
 Der CSS-Teil ist zuletzt dann für alles Grafische der Website zuständig. 
-Diese Beiden Dateien sind im "data"-Ordner ausgelagert und befinden sich in der SD-Karte des ESPs. Genauso werden dort auch alle Bilder gespeichert.
+Diese beiden Dateien sind im "data"-Ordner ausgelagert und befinden sich in der SD-Karte des ESPs. Genauso werden dort auch alle Bilder gespeichert.
