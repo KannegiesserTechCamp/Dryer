@@ -1,5 +1,5 @@
-#ifndef TROCKNER_H
-#define TROCKNER_H
+#ifndef DRYER_H
+#define DRYER_H
 
 // Functions
 void Motorsetup();
