@@ -70,7 +70,7 @@ Bzw. im Nachhinein: -> PIO Home -> Boards -> Suchen und Auswählen (-> platform.
 2. Platform IO: 
 - PIO Home -> Libraries -> Suchen -> Add to Project -> Projektnamen auswählen -> Add
 
-#### Richtiger Port auswählen 
+#### Richtigen Port auswählen 
 1. Arduino IDE: 
 - Werkzeuge -> Port 
 2. PlatformIO:
@@ -81,14 +81,6 @@ Bzw. im Nachhinein: -> PIO Home -> Boards -> Suchen und Auswählen (-> platform.
 - Werkzeuge -> Serieller Monitor 
 2. PlatformIO: 
 - General -> Monitor bzw. Upload und Monitor (Code wird hochgeladen und der Monitor wird geöffnet)
-
-#### Hochladen der DATA-Dateien 
-Lade die Dateien in den Data-Unterordner deines Programms
-1. Arduino IDE: 
-- Werkzeuge -> ESP32 Sketch Data Upload
-2. PlatformIO: 
-- Platform -> Build Filesystem Image 
-- Platform -> Upload Filesystem Image 
 
 #### Hochladen Programmcode 
 Arduino IDE: 
@@ -124,21 +116,3 @@ Arduino IDE:
 
 Visual Studio Code: 
 - PlatformIO-Icon -> Project Tasks -> General -> Upload
-
-
-## Wie funktioniert der Code im Großen und Ganzen? 
-Wir haben eine "Main" Datei. Diese enthält standardmäßig immer ein Setup (Definition der Outputs/Inputs) und ein Loop (Schleife), der immer wieder durchlaufen wird, bis keine Spannung mehr angeschlossen wird. 
-Im Setup können jedoch auch Methoden und Funktionen aufgerufen werden, die nicht immer wieder wiederholt werden. 
-
-Wozu  .h und und .cpp?
-Wir haben die Funktionen und den Setupcode des Trockners, sowie der LED, ausgelagert, sodass die Main übersichtlicher bleibt. Diese Funktionen und der Setupcode findet man in den jeweiligen .cpp. 
-Die .h Datei ist eine Besonderheit in der c-Programmierung und sorgt allein dafür, dass die Main weiß welche Funktionen sie auch verwenden darf aus den .cpp.
-
-## main.cpp:
-In der Main legen wir im Setup einen sogenannten Async-Webserver an. Außer Betracht lassen wir jetzt mal für was das Async gut ist. Viel wichtiger ist, dass es ein Webserver ist und dieser stellt unseren Server für die Website, die wir nachher aufrufen können. 
-Dieser bekommt zusätzlich noch die Information, dass er auf unseren HTML-Code, die CSS und unsere Bilddateien für die Website Zugriff hat, sodass der Server diese Website "bauen" kann. 
-Eine weitere Funktion hat er jedoch auch noch: Sobald er einen bestimmten Pfad bekommt (ausgelöst durch die Buttons der Oberfläche), ruft er die entsprechende Funktion unseres Trockners bzw. unserer LED auf. 
-
-Der HTML-Code beschreibt, was die Seite alles für Elemente besitzt und dass der Richtige Pfad aufgerufen wird, beim Button-Click. 
-Der CSS-Teil ist zuletzt dann für alles Grafische der Website zuständig. 
-Diese beiden Dateien sind im "data"-Ordner ausgelagert und befinden sich in der SD-Karte des ESPs. Genauso werden dort auch alle Bilder gespeichert.
