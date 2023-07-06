@@ -23,8 +23,8 @@
 // ###########################################################################################################################################################
 // ######################################################## WIFI SSID & PASSWORD #############################################################################
 // ###########################################################################################################################################################
-const char* ssid = "EasterTechCamp"; // Enter your SSID here (Name of WIFI) 
-const char* password = "Kannegiesser2023";  // Enter your Password here 
+const char* ssid = "TechCamp"; // Enter your SSID here (Name of WIFI) 
+const char* password = "Kannegiesser";  // Enter your Password here 
 
 // local variables
 const String left = "left";
@@ -39,7 +39,7 @@ String Motor = "stop";
 AsyncWebServer server(80);  // Object of WebServer(HTTP port, 80 is default)
 
 // website data (HTML, CSS + image paths)
-#define PATH_TO_HTML "/eastercamp.html"
+#define PATH_TO_HTML "/techcamp.html"
 #define PATH_TO_CSS "/design.css"
 #define PATH_TO_LED_BUTTON_IMAGE "/LEDbutton.png"
 #define PATH_TO_DRYER_BUTTON_IMAGE "/Trocknerbutton.png"
