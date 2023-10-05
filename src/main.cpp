@@ -64,27 +64,20 @@ Nutze zusätzlich dein Wissen über If-Anweisungen und Schleifen in der loop().
 Du kannst die Trommel des Trockners langsam anlaufen und bremsen lassen, LEDs in unterschiedlichen Farben und Helligkeiten blinken lassen - Probier es aus!
 */
 
+#include "animated_rainbow.h"
+#include "bouncing_pixel.h"
+#include "morse_code.h"
+
 void setup() 
 {
   // Die beiden Funktionen müssen hier an erster Stelle stehen bleiben.
   MotorInitialisierung();
   LedInitialisierung();
-  
-
-
-}
-
-void farben(uint8_t helligkeit) {
-    LedEinzelFarbeHelligkeit(0, rot, helligkeit);
-    LedEinzelFarbeHelligkeit(1, orange, helligkeit);
-    LedEinzelFarbeHelligkeit(2, gelb, helligkeit);
-    LedEinzelFarbeHelligkeit(3, gruen, helligkeit);
-    LedEinzelFarbeHelligkeit(4, blau, helligkeit);
-    LedEinzelFarbeHelligkeit(5, lila, helligkeit);
-    LedEinzelFarbeHelligkeit(6, schwarz, helligkeit);
 }
 
 void loop() 
 {
-    farben(10);
+    //AnimierterRegenbogen(10);
+    //bouncing_pixel(magenta, schwarz, 250, 10);
+    morse_code(weiss, 300, 10);
 }

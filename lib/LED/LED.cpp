@@ -59,6 +59,8 @@ RgbColor GetRgbColor(Farbe Farbe, uint8_t Helligkeit)
 // Public functions
 void LedInitialisierung()
 {
+    pinMode(LED_DATA_PIN, OUTPUT);
+
     for (int i = 0; i < AnzahlLeds; i++)
     {
         AktuelleFarben[i] = RgbColor(0, 0, 0);
