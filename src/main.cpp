@@ -74,11 +74,17 @@ void setup()
 
 }
 
+void farben(uint8_t helligkeit) {
+    LedEinzelFarbeHelligkeit(0, rot, helligkeit);
+    LedEinzelFarbeHelligkeit(1, orange, helligkeit);
+    LedEinzelFarbeHelligkeit(2, gelb, helligkeit);
+    LedEinzelFarbeHelligkeit(3, gruen, helligkeit);
+    LedEinzelFarbeHelligkeit(4, blau, helligkeit);
+    LedEinzelFarbeHelligkeit(5, lila, helligkeit);
+    LedEinzelFarbeHelligkeit(6, schwarz, helligkeit);
+}
+
 void loop() 
 {
-
-
-
-
-
+    farben(10);
 }

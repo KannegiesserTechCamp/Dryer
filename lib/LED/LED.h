@@ -16,7 +16,7 @@ Diese vordefinierten Farben stehen dir (neben den RGB-Werten) zur Verfügung:
 */
 enum Farbe
 {
-    schwarz, weiss, rot, gruen, blau, gelb, cyan, magenta
+    schwarz, weiss, rot, orange, gruen, blau, lila, gelb, cyan, magenta
 };
 
 /*
