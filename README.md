@@ -1,144 +1,398 @@
-# Tech-Camp ESP32 - Trockner mit LED-Stripes 
+<img src="images/logo.svg" alt="Logo" width="1000"/>
 
-## Bauteile
-- Trockner 
-- ESP32 WROOM 32 240MHz, 320KB RAM, 4MB Flash
-- Batteriefach mit 3x AA 
-- H-Brücke 
+# Tech-Camp: Kannegiesser
 
-zusätzlich wird zum Erstellen des Programms benötigt: 
+Herzlich willkommen zum Tech-Camp bei Kannegiesser! Nachdem du in den ersten beiden Tagen in Zusammenarbeit mit der Ausbildungs- und Elektrowerkstadt deinen Trockner Gebaut hast werden wir uns auf eine Reise in die faszinierende Welt der Programmierung begeben und uns einem ganz besonderen Projekt widmen - der Programmierung deines Trockners.
+
+Gemeinsam werden wir den Prozess durchlaufen, von der Einrichtung der notwendigen Software und Treiber auf deinem Windows-System bis hin zur Implementierung des Codes, der unseren Trockner zum Leben erweckt. Du wirst lernen, wie man Visual Studio Code einrichtet, die notwendigen Plugins installiert und die Treiber konfiguriert, die für unser Projekt benötigt werden.
+
+Egal, ob du ein erfahrener Programmierer bist oder gerade erst anfängst, das Tech-Camp bietet eine großartige Gelegenheit, praktische Erfahrungen zu sammeln und deine Fähigkeiten zu erweitern. Wir freuen uns darauf, dich bei dieser spannenden Reise zu begleiten!
+
+# Anleitung zur Einrichtung von Visual Studio Code, Plugins und Treibern unter Windows
+In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einrichtung und Konfiguration von Visual Studio Code gehen, einschließlich der Installation der notwendigen Plugins und Treiber. Diese Anleitung ist sowohl für Anfänger als auch für erfahrene Benutzer gedacht und soll dazu beitragen, dass du schnell mit deiner Programmierarbeit beginnen kannst. Lass uns anfangen!
+
+### Bauteile
+
+- Trockner
+  - ESP32 WROOM 32 240MHz, 320KB RAM, 4MB Flash
+  - Batteriefach mit 3x AA
+  - H-Brücke
+  - LED Streifen
+
+#### Zusätzlich wirst du zum Erstellen des Programms benötigen:
+
 - USB-A Kabel mit USB-Micro-B (alte Ladekabel für z.B. Android-Handys)
-- Laptop mit Arduino IDE oder Visual Studio Code und PlatformIO-Erweiterung 
+- Laptop mit [Visual Studio](https://code.visualstudio.com/) Code mit [PlatformIO](https://platformio.org/)-Erweiterung
 
-## Wichtige Benutzerhinweise
-- Stecke den ESP niemals mit dem USB-Kabel an Spannung an, wenn das Batteriefach auf **AN** steht!
+### Wichtiger Benutzerhinweis
 
-## Software für Programm-Code
-Es gibt 2 möglichen Programme den Programm-Code für den ESP zu schreiben: 
-1. Arduino IDE
-    Vorteile: 
-    - Farbige Darstellung bestimmter Variablen, vor allem auch Arduino/ESP Spezifisch 
-    - Einfache Handhabung 
-    - übersichtliche Oberfläche
-    - Einfache Einrichtung des Programms
+**Stecke den ESP niemals mit dem USB-Kabel an Spannung an, wenn das Batteriefach auf AN steht!**
 
-    Nachteile:
-    - Nicht so praktisch, wenn man mehrere Dateien gleichzeitig anlegen möchte 
-    - Nicht so einfach bestimmte Bibliotheken zu finden
-    - kein Automatisches Einrücken 
-    - Evtl. nicht so viele Boards zum auswählen verfügbar 
-    - Kein einfaches auskommentieren/ ein kommentieren
-    - Im Großen und Ganzen für eine .ino Datei gedacht 
+## Visual Studio Code
+
+### Installation
+
+1. Öffne deinen Webbrowser und besuche die offizielle Visual Studio Code-Website:  
+
+    [https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+2. Klicke auf den Download-Button, um das Installationspaket für Windows herunterzuladen.
+
+3. Nach dem Download öffne die Installationsdatei und folge den Anweisungen des Installationsassistenten, um Visual Studio Code auf deinem Gerät zu installieren.
+
+### Starten
+
+1. Nach der Installation von Visual Studio Code kannst du dieses über das Startmenü öffnen.
+
+2. Bei der ersten Verwendung wirst du aufgefordert, deine Einstellungen anzupassen. Du kannst die Standardeinstellungen beibehalten oder sie nach deinen Wünschen anpassen.
+
+## PlatformIO Plugin
+
+### Installation
+
+1. Öffne Visual Studio Code.
+
+2. Klicke auf das quadratische Symbol in der linken Seitenleiste, um den "Extensions"-Bereich zu öffnen.
+
+3. Gib in das Suchfeld "PlatformIO" ein und suche nach dem entsprechenden Plugin.
+
+4. Klicke auf "Installieren", um das PlatformIO-Plugin zu installieren.
+
+5. Nachdem die Installation erfolgreich abgeschlossen wurde, starte Visual Studio Code neu.
+
+6. Warte, bis alles automatisch konfiguriert worden ist.
+
+## USB-Treiber NodeMCU CP2102 (ESP 32)
+
+### Installation
+
+1. Lade den USB-Treiber: CP2102 von der offiziellen Silicon Labs-Website für dein Betriebssystem herunter: [Silicon Labs Treiberseite](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers)
+
+2. Suche die heruntergeladene Datei in deinem Verzeichnis, klicke diese mit einem Rechtsklick an und wähle „Alle extrahieren“ aus, um die Datei zu entpacken.
+
+3. Navigiere in den entpackten Ordner und suche nach der „silabser.inf“ Datei.
+
+4. Klicke nun mit der rechten Maustaste auf die „silabser.inf“ Datei und wähle „Installieren“ aus.
+
+5. Folge nun dem Installationssetup, bis die Treiber erfolgreich installiert wurde.
+
+### Installation Testen (Optional):
+
+1. Öffne den Windows Geräte-Manager, indem du in der Windows-Suche "Geräte-Manager" eingibst.
+
+2. In der Kategorie „Anschlüsse (COM & LPT)" findest du nun den "Silicon Labs CP210x USB to UART Bridge". Solltest du diesen nicht sehen, ist bei der Treiberinstallation etwas schiefgelaufen, springe dann Abschnitt USB-Treiber installieren und führe die Schritte erneut aus.
+
+## Repository
+
+### Download
+
+1. Öffne deinen Webbrowser und besuche das folgende Github Repository:
+
+    [https://github.com/KannegiesserTechCamp/Dryer](https://github.com/KannegiesserTechCamp/Dryer)
+
+2. Wenn du einen anderen Branch auswählen willst, klicke auf „main“ und wähle diesen in dem Dropdown Menü aus.
+
+3. Zum Download drücke auf den grünen Button „Code“ und wähle „Download ZIP“ aus.
+
+### Entpacken
+
+1. Suche die heruntergeladene Datei in deinem Verzeichnis, klicke diese mit einem Rechtsklick an und wähle „Alle extrahieren“ aus, um die Datei zu entpacken.
+
+## Funktionstest des ESP32 (Mikro Controller)
+
+1. Starte Visual Studio Code und öffne das PlatformIO Plugin (Seitenleiste Links).
+
+2. Wähle unter Quick Access „Open“ aus, klicke auf „Open Project“ und wähle deinen Projektordner (z.B. “Dryer-main”) aus. (Standartmäßig ist das Projekt im Downloadordner zu finden.)
+   Diese Einrichtung kann einen Moment dauern.
+
+3. Öffne nun wieder das PlatformIO Plugin und führe links im Reiter einen „Full Clean“ durch.
+
+4. Optional für den Main Branch:
+
+   Daraufhin wähle links im Reiter „PROJECT TASKS“ den Punkt „Build Filesystem Image“ aus.
+
+   Nachdem erfolgreichen beenden des Schrittes wähle links im Reiter „Upload Filesystem Image“ aus und warte bis im Terminal „SUCCESS“ steht.
+
+   Nun wähle links im Reiter „Build“ aus und warte sie ebenfalls bis im Terminal „SUCCESS“ steht.
+
+   Nun wähle links im Reiter „Upload and Monitor“ aus und warte sie ebenfalls bis im Terminal „SUCCESS“ steht.
+
+## Ein tieferer Einblick in den Code
+
+Unser Code besteht hauptsächlich aus einer "Main"-Datei. Diese Datei enthält immer ein Setup, in dem die Outputs/Inputs definiert werden, und eine Schleife (Loop), die ständig durchlaufen wird, solange Spannung anliegt. Im Setup können auch Methoden und Funktionen aufgerufen werden, die nicht ständig wiederholt werden müssen.
+
+Die .h und .cpp Dateien spielen eine wichtige Rolle in unserer Code-Struktur. Wir haben die Funktionen und den Setup-Code des Trockners sowie der LED in separate .cpp Dateien ausgelagert, um die "Main"-Datei übersichtlicher zu gestalten. Die .h Datei ist eine Besonderheit in der C-Programmierung und stellt sicher, dass die "Main"-Datei weiß, welche Funktionen sie aus den .cpp Dateien verwenden darf.
+
+In der "main.cpp" legen wir im Setup einen sogenannten Async-Webserver an. Dieser Webserver stellt unseren Server für die Website dar, die wir später aufrufen können. Er erhält zusätzlich Informationen zu unserem HTML-Code, CSS und unseren Bilddateien für die Website, sodass der Server diese Website "bauen" kann. Eine weitere Funktion des Webservers ist es, bei Erhalt eines bestimmten Pfades (ausgelöst durch die Buttons der Oberfläche) die entsprechende Funktion unseres Trockners bzw. unserer LED aufzurufen.
+
+Der HTML-Code beschreibt die Elemente der Seite und stellt sicher, dass der richtige Pfad aufgerufen wird, wenn ein Button geklickt wird. Der CSS-Teil ist für das grafische Design der Website zuständig. Beide Dateien sind im "data"-Ordner ausgelagert und befinden sich auf der SD-Karte des ESPs. Dort werden auch alle Bilder gespeichert.
+
+Die bereitgestellte Quelle enthält den Code für die "main.cpp"-Datei, einschließlich der Einbindung externer Bibliotheken, Definition von Konstanten und lokalen Variablen sowie dem Code zum Öffnen des Dateisystems.
+
+## Router Verbindung einrichten
+
+### WLAN-Konfiguration
+
+Trage die richtige SSID (dies ist der Name deines Routers) und das Passwort des Routers in der “src/main.cpp” Datei ein. (Der Abschnitt befindet sich in Zeile 23 bis Zeile 27 in der Datei)
+
+<img src="images/code_snippet.png" alt="code_snippel" width="1000"/>
+
+### FritzBox-Oberfläche (optional)
+
+1. Öffne einen Webbrowser auf deinem Computer oder einem anderen Gerät, das mit dem gleichen Netzwerk wie deine FritzBox verbunden ist.
+2. Gib die IP-Adresse deiner FritzBox in die Adressleiste des Browsers ein und drücke die Eingabetaste. Die Standard-IP-Adresse der FritzBox lautet normalerweise "192.168.178.1". Überprüfe die Dokumentation deiner FritzBox, wenn du dir nicht sicher bist. 
+3. Gib das FritzBox-Passwort ein, um dich in die FritzBox-Oberfläche einzuloggen. Dieses Passwort findest du normalerweise auf einem Aufkleber auf deiner FritzBox oder in der Dokumentation. 
+4. Navigiere in der FritzBox-Oberfläche zu den Heimnetz-Einstellungen und klicke auf den Punkt Netzwerk. Der genaue Pfad kann je nach FritzBox-Modell variieren. Du solltest jedoch eine Option finden, die dir die Liste der aktuell verbundenen Geräte anzeigt. 
+5. In der Liste der verbundenen Geräte suche nach dem Eintrag für deinen ESP32. Der Name oder die IP-Adresse des ESP32 sollte dort aufgeführt sein, wenn er erfolgreich mit der FritzBox verbunden ist.
+<img src="images/FritzBox_Dashboard.png" alt="Dashboard" width="1000"/>
+
+6. Um eine feste IPv4 Adresse festzulegen, drücke bitte auf den Stift des entsprechenden ESPs und suche nach dem Punkt “Adresse im Heimnetz (IP-Adressen” und wähle „Diesem Netzwerkgerät immer die gleiche IPv4-Adresse zuweisen.“ aus und setze hier bitte den Haken. Hierdurch bekommt das Gerät jedes Mal die gleiche IPv4 Adresse zugewiesen.
+<img src="images/FritzBox_IPv4.png" alt="IPv4" width="1000"/>
+
+### Überprüfe die Serielle Ausgabe (optional)
+
+Wenn du während der Programmierung des ESP32 die serielle Ausgabe für Debugging-Zwecke aktiviert hast, kannst du auch die serielle Ausgabe überprüfen, um den Verbindungsstatus zu überprüfen. Wenn der ESP32 erfolgreich eine Verbindung zu deinem WLAN herstellt, sollte dies in der seriellen Ausgabe angezeigt werden.
+
+# C++ Programmierung:
+Die folgenden Beispiel können mit hilfe des Online Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) getestes werden.
+Weitere Materialien zur Programmierung sind in dem folgenden Verzeichniss: [einführung cpp](https://github.com/KannegiesserTechCamp/einfuerung_cpp) verfügbar.
 
 
-2. Visual Studio Code mit PlatformIO
-    Vorteile: 
-    - Einfacheres suchen nach Bibliotheken
-    - Überprüfung von C
-    - Markieren aller gleichen Wörter bei Doppelklick 
-    - Einfaches aus-/ein kommentieren
-    - Einfaches auswählen des richtigen Boards
-    - Serieller Monitor kann nach dem Kompilieren automatisch geöffnet werden 
+## Digitaler Trockner
 
-    Nachteile: 
-    - Durch mehr Funktionen, Handhabung nicht ganz so leicht, evtl. etwas unübersichtlicher (Ordnerstruktur)
-    - andere Ordnerstruktur (benötigt .ini, im src den Programmcode, data-Ordner ist gleich)
-    - Filesystem hochladen sind mehrere Schritte nötig 
-    - Zum Einrichten mehrere Schritte nötig 
+### Code
 
-#### Download-links und Einrichtung 
-1. Arduino IDE:
-    https://www.arduino.cc/en/software
+```cpp
+// Einbinden der Standardbibliotheken für Ein-/Ausgabe und Zeichenkettenverarbeitung
+// Einbinden der Standardbibliotheken für Ein-/Ausgabe und Zeichenkettenverarbeitung
+// 'stdio.h' ist für grundlegende Ein- und Ausgabeoperationen wie printf und scanf.
+// 'string.h' ist für Operationen auf Zeichenketten (Strings) wie strcpy.
+#include <stdio.h>
+#include <string.h>
 
-2. Visual Studio Code mit PlatformIO: 
-    https://code.visualstudio.com/
-    - auf die Bausteine (Erweiterungen) -> PlatformIO IDE -> Installieren
+// Die main-Funktion ist der Einstiegspunkt für das Programm.
+int main() {
+    // Deklaration der Variablen
+    // 'startup' und 'prog' sind Ganzzahlvariablen (int), 'progname' 
+    //ist ein Zeichenkettenarray (char array).
+    int startup;
+    int prog;
+    char progname[124];
+    
+    // Ausgabe der Optionen für den Benutzer
+    // printf wird verwendet, um Text auf dem Bildschirm auszugeben.
+    printf("Tippe:\n\t\t (0) zum Beenden \n\t\t (1) zum starten \n\t\t (2) für neues Programm \n");
+    
+    // Einlesen der Benutzereingabe
+    // scanf wird verwendet, um die Eingabe des Benutzers zu lesen. '%i' bedeutet, 
+    //dass eine Ganzzahl erwartet wird.
+    scanf("%i", &startup);
+    
+    // Überprüfung der Benutzereingabe und Ausführung des entsprechenden Codes
+    // Die if-else-Anweisungen überprüfen den Wert von 'startup' und 
+    //führen den entsprechenden Codeblock aus.
+    if(startup == 0){
+        printf("Du hast dich für das Beenden des Trockners entschieden\n");
+    }
+    else if(startup == 1){
+        printf("Der Trockner wird hochgefahren\n");
+        printf("\t\t3\n\t\t2\n\t\t1\n\t\t0\n");
+        printf("Trockner gestartet\n");
+        printf("bereit zum Trocknen\n");
+        
+        printf("Waele eines der folden Programme zum Trocknen aus:\n");
+        printf("\t(1) \t schnelles Trocknen\n");
+        printf("\t(2) \t schleuder Trauma\n");
+        printf("\t(3) \t Presskuchen\n");
+        
+        scanf("%i", &prog);
+        printf("Du hast dich für das Folgenden Programm entschieden");
+        if(prog == 1){
+            // Kopieren des Programmnamens in die Variable 'progname'
+            strcpy(progname, "schnelles Trocknen");  
+        } else if(prog == 2){
+            strcpy(progname, "schleuder Trauma");
+        }else if(prog == 3){
+            strcpy(progname, "Presskuchen");
+        }
+    }
+    else if(startup == 2){
+        printf("Du hast dich für das neue Programm entschieden\n");
+        printf("gebe im folgenden den namen deines neuen Programms ein\n");
+        // Einlesen des neuen Programmnamens
+        scanf("%s", &progname);  
+        
+        printf("Das Programm mit dem Namen: \n\t %s \nwurde erstellt\n", progname);
+    }
+    else{
+        printf("Der hast leider keine der Möglichen Eingaben (0), (1) gemacht \n");
+    }
+    
+    printf("Der Trockner wird herruntergefahren und beendet");
+    return 0;  // Beendet die main-Funktion und gibt den Wert 0 zurück.
+}
+```
+Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Der Benutzer kann den Trockner starten und ein Trockenprogramm auswählen, ein neues Programm erstellen oder den Trockner beenden. Die Auswahl des Benutzers wird über die Standard-Eingabe eingelesen und entsprechend verarbeitet. Der Code verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Zeichenkettenoperationen.
 
+Zum Testen: in den Online Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) kopieren.
 
-#### Richtiges Board auswählen 
-1. Arduino IDE: 
-- Werkzeuge -> Board -> ESP32 Bzw. Arduino auswählen 
+## Ausführliche Einführung
 
-2. PlatformIO: 
-Bei "New Project" -> Board auswählen;
-Framework -> Arduino 
-Bzw. im Nachhinein: -> PIO Home -> Boards -> Suchen und Auswählen (-> platform.ini wird das Board eingetragen)
+Dieses Programm stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Es verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Zeichenkettenoperationen.
 
-#### Bibliotheken hinzufügen 
-1. Arduino IDE: 
-- Werkzeuge -> Bibliotheken verwalten .. -> Suchen und installieren 
-2. Platform IO: 
-- PIO Home -> Libraries -> Suchen -> Add to Project -> Projektnamen auswählen -> Add
+### Variablendeklaration
 
-#### Richtiger Port auswählen 
-1. Arduino IDE: 
-- Werkzeuge -> Port 
-2. PlatformIO:
-- Mittiges Symbol mit Stecker -> Klicken -> Port evtl. ändern
+In C müssen alle Variablen vor ihrer Verwendung deklariert werden. Eine Variablendeklaration gibt den Variablennamen und den Typ an. Zum Beispiel:
 
-#### Serieller Monitor öffnen 
-1. Arduino IDE: 
-- Werkzeuge -> Serieller Monitor 
-2. PlatformIO: 
-- General -> Monitor bzw. Upload und Monitor (Code wird hochgeladen und der Monitor wird geöffnet)
+```cpp
+int startup;
+int prog;
+char progname[124];
+```
 
-#### Hochladen der DATA-Dateien 
-Lade die Dateien in den Data-Unterordner deines Programms
-1. Arduino IDE: 
-- Werkzeuge -> ESP32 Sketch Data Upload
-2. PlatformIO: 
-- Platform -> Build Filesystem Image 
-- Platform -> Upload Filesystem Image 
+In diesem Code werden zwei Ganzzahlvariablen (`startup` und `prog`) und ein Zeichenkettenarray (`progname`) deklariert.
 
-#### Hochladen Programmcode 
-Arduino IDE: 
-- mit dem Pfeil -> kannst du das Programm hochladen bzw. Sketch -> hochladen 
+### Ein- und Ausgabe
 
-Visual Studio Code: 
-- PlatformIO-Icon -> Project Tasks -> General -> Upload 
+Die Funktionen `printf` und `scanf` werden für die Ein- und Ausgabe verwendet. `printf` wird verwendet, um Text auf dem Bildschirm auszugeben, und `scanf` wird verwendet, um die Eingabe des Benutzers zu lesen.
 
-## Code aus dem GitLab wieder auf den ESP laden 
-Du benötigst:
-- USB-Kabel, PC, Programmcode (GitLab)
+### Kontrollstrukturen
 
-Zuerst musst du den Code herunterladen und in einem Ordner speichern.
-Achtung! Nutzt du die Arduino IDE, so brauchst du den Code aus dem "Arduino IDE"-Pfad (Eine Datei davon ist eine .ino-Datei). Bei Visual Studio mit PlatformIO den Code aus dem Pfad "PlatformIO"(Eine Daei davon ist eine platformio.ini-Datei)
-Danach musst du sicherstellen, dass du eine geeignete Software besitzt (Arduino IDE bzw. Visual Studio Code mit PlatformIO).
-Wenn du diese nicht hast, dann schau in "Software für Programm-Code" nach, wie und wo du diese findest. 
-Als dritten Schritt öffnest du nun dein Programm und öffnest den Ordner mit dem Code. 
+Die if-else-Anweisungen werden verwendet, um zu überprüfen, ob eine Bedingung erfüllt ist, und um den entsprechenden Codeblock auszuführen. Zum Beispiel:
 
-Arduino IDE: 
-- Datei -> Öffnen .. 
-- Arduinoprogramm "DeinProgramm".ino -> öffnen
+```cpp
+if(startup == 0){
+    printf("Du hast dich für das Beenden des Trockners entschieden\n");
+}
+else if(startup == 1){
+    // Code für den Fall, dass 'startup' gleich 1 ist
+}
+else{
+    // Code für den Fall, dass keine der vorherigen Bedingungen erfüllt ist
+}
+```
 
-Visual Studio Code: 
-- PlatformIO-Icon -> PIO Home -> Open -> Open Project 
-- Ordner suchen, auswählen -> open 
+### Zeichenkettenoperationen
 
+Die Funktion `strcpy` wird verwendet, um eine Zeichenkette in eine andere zu kopieren. Zum Beispiel:
 
-Nun das hochladen auf den ESP32
-- Stelle fest, dass der ESP32 an deinem PC angeschlossen ist und das Batteriefach aus ist 
-Hochladen funktioniert folgend: 
-Arduino IDE: 
-- mit dem Pfeil -> kannst du das Programm hochladen bzw. Sketch -> hochladen 
+```cpp
+strcpy(progname, "schnelles Trocknen");
+```
 
-Visual Studio Code: 
-- PlatformIO-Icon -> Project Tasks -> General -> Upload
+In diesem Code wird der Text "schnelles Trocknen" in die Variable `progname` kopiert.
 
+## Wäsche Verwaltung
+Zum Testen: in den Online Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) kopieren.
 
-## Wie funktioniert der Code im Großen und Ganzen? 
-Wir haben eine "Main" Datei. Diese enthält standardmäßig immer ein Setup (Definition der Outputs/Inputs) und ein Loop (Schleife), der immer wieder durchlaufen wird, bis keine Spannung mehr angeschlossen wird. 
-Im Setup können jedoch auch Methoden und Funktionen aufgerufen werden, die nicht immer wieder wiederholt werden. 
+### Code
 
-Wozu  .h und und .cpp?
-Wir haben die Funktionen und den Setupcode des Trockners, sowie der LED, ausgelagert, sodass die Main übersichtlicher bleibt. Diese Funktionen und der Setupcode findet man in den jeweiligen .cpp. 
-Die .h Datei ist eine Besonderheit in der c-Programmierung und sorgt allein dafür, dass die Main weiß welche Funktionen sie auch verwenden darf aus den .cpp.
+```cpp
+// Die Standardbibliothek 'stdio.h' wird eingebunden, um grundlegende Ein-/Ausgabeoperationen wie printf und scanf zu ermöglichen.
+#include <stdio.h>
 
-## main.cpp:
-In der Main legen wir im Setup einen sogenannten Async-Webserver an. Außer Betracht lassen wir jetzt mal für was das Async gut ist. Viel wichtiger ist, dass es ein Webserver ist und dieser stellt unseren Server für die Website, die wir nachher aufrufen können. 
-Dieser bekommt zusätzlich noch die Information, dass er auf unseren HTML-Code, die CSS und unsere Bilddateien für die Website Zugriff hat, sodass der Server diese Website "bauen" kann. 
-Eine weitere Funktion hat er jedoch auch noch: Sobald er einen bestimmten Pfad bekommt (ausgelöst durch die Buttons der Oberfläche), ruft er die entsprechende Funktion unseres Trockners bzw. unserer LED auf. 
+// Die Funktion 'waschen' nimmt einen Charakter 'farbe' als Parameter an. Dieser Charakter repräsentiert die Farbe der Wäsche, die gewaschen werden soll.
+void waschen(char farbe){
+    // Die if-else-if-Anweisung überprüft, welche Farbe die Wäsche hat, und gibt eine entsprechende Nachricht aus.
+    if(farbe == 'b'){
+        printf("Blaue Waesche wird gewaschen\n");
+    }else if(farbe == 'r'){
+        printf("Rote Waesche wird gewaschen\n");
+    }else if(farbe == 'g'){
+        printf("Gruene Waesche wird gewaschen\n");
+    }else if(farbe == 'w'){
+        printf("Weisse Wasche wird gewaschen\n");
+    }else if(farbe == 's'){
+        printf("Schwarze Wasche wird gewaschen\n");
+    }else{
+        // Wenn keine der obigen Bedingungen erfüllt ist (d.h., die Farbe ist nicht blau, rot, grün, weiß oder schwarz), wird angenommen, dass die Wäsche bunt ist.
+        printf("\t\t Diese Farbe ist unbekannt\n");
+        printf("\t\t Die Bunte Waesche wird gewaschen\n");
+    }
+}
 
-Der HTML-Code beschreibt, was die Seite alles für Elemente besitzt und dass der Richtige Pfad aufgerufen wird, beim Button-Click. 
-Der CSS-Teil ist zuletzt dann für alles Grafische der Website zuständig. 
-Diese beiden Dateien sind im "data"-Ordner ausgelagert und befinden sich in der SD-Karte des ESPs. Genauso werden dort auch alle Bilder gespeichert.
+// Die main-Funktion ist der Einstiegspunkt für das Programm. In C-Programmen muss es immer eine main-Funktion geben.
+int main() {
+    // Deklaration der Variablen
+    // 'exit' ist eine boolsche Variable, die bestimmt, ob die Hauptschleife des Programms weiterlaufen soll.
+    // 'anzahl' ist eine Ganzzahlvariable, die die Anzahl der Wäschestapel speichert.
+    // 'fertig' ist eine Ganzzahlvariable, die verwendet wird, um zu überprüfen, ob der Benutzer weitere Stapel hinzufügen möchte.
+    // 'farbe' ist eine Zeichenvariable (char), die die Farbe der Wäsche speichert.
+    bool exit = true;
+    int anzahl;
+    int fertig;
+    char farbe;
+    
+    // Ausgabe der Einführungsnachricht
+    printf("Dies ist eine Aufnahme Stelle fuer die Verwaltung von Waesche\n");
+    
+    // Hauptschleife des Programms. Sie läuft so lange, bis der Benutzer entscheidet, dass keine weiteren Stapel hinzugefügt werden sollen.
+    while(exit){
+        // Aufforderung zur Eingabe der Anzahl und Farbe der Wäschestapel
+        printf("Gebe im folgenden Format: Anzahl(int) Farbe(char) an, was fuer Waesche angeliefert wurde\n");
+        scanf("%i %c", &anzahl, &farbe);
+        
+        // Schleife zum Waschen jedes Wäschestapels
+        for(int i=0; i< anzahl; i++){
+            printf("Stapel Nr. %i  ", i+1);
+            waschen(farbe);
+        }
+        
+        // Aufforderung zur Eingabe, ob weitere Stapel verteilt werden sollen
+        printf("Sollen weitere Stapel verteilt werden ? Nein (0), Ja (1)\n");
+        scanf("%i", &fertig);
+        if(fertig == 0){
+            exit = false;
+        }
+    }
+    
+    // Ausgabe der Abschlussnachricht
+    printf("Wir haben es geschafft, alle Stapel konnten sortiert werden");
+    
+    return 0;  // Beendet die main-Funktion und gibt den Wert 0 zurück. In C bedeutet ein Rückgabewert von 0 in der main-Funktion, dass das Programm erfolgreich ausgeführt wurde.
+}
+```
+
+Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer die Anzahl und Farbe von Wäschestapeln eingeben kann, die gewaschen werden sollen. Der Benutzer kann dann angeben, ob weitere Stapel verteilt werden sollen oder nicht. Der Code verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen und Schleifen) und Funktionen.
+
+## Ausführliche Einführung
+
+Dieses Programm stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Es verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Funktionen.
+
+### Variablendeklaration
+
+In C müssen alle Variablen vor ihrer Verwendung deklariert werden. Dies gibt den Variablennamen und den Typ an. Zum Beispiel:
+
+```cpp
+bool exit = true;
+int anzahl;
+int fertig;
+char farbe;
+```
+
+In diesem Code werden eine boolsche Variable (`exit`), zwei Ganzzahlvariablen (`anzahl` und `fertig`) und eine Zeichenvariable (`farbe`) deklariert.
+
+### Ein- und Ausgabe
+
+Die Funktionen `printf` und `scanf` werden für die Ein- und Ausgabe verwendet. `printf` wird verwendet, um Text auf dem Bildschirm auszugeben, und `scanf` wird verwendet, um die Eingabe des Benutzers zu lesen.
+
+### Kontrollstrukturen
+
+Die if-else-Anweisungen werden verwendet, um zu überprüfen, ob eine Bedingung erfüllt ist, und um den entsprechenden Codeblock auszuführen. Zum Beispiel:
+
+```c
+if(farbe == 'b'){
+    printf("Blaue Waesche wird gewaschen\n");
+}else if(farbe == 'r'){
+    printf("Rote Waesche wird gewaschen\n");
+}else if(farbe == 'g'){
+    printf("Gruene Waesche wird gewaschen\n");
+}else{
+    printf("\t\t Diese Farbe ist unbekannt\n");
+    printf("\t\t Die Bunte Waesche wird gewaschen\n");
+}
+```
+
+### Funktionen
+
+Eine Funktion ist ein Block von Code, der eine bestimmte Aufgabe ausführt. In diesem Programm gibt es zwei Funktionen: `main` und `waschen`. Die `main`-Funktion ist der Einstiegspunkt des Programms, während die `waschen`-Funktion dazu dient, die Wäsche basierend auf ihrer Farbe zu waschen.
