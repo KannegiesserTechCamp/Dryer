@@ -2,14 +2,14 @@
 
 # Tech-Camp: Kannegiesser
 
-Herzlich willkommen zum Tech-Camp bei Kannegiesser! Nachdem du in den ersten beiden Tagen in Zusammenarbeit mit der Ausbildungs- und Elektrowerkstadt deinen Trockner Gebaut hast werden wir uns auf eine Reise in die faszinierende Welt der Programmierung begeben und uns einem ganz besonderen Projekt widmen - der Programmierung deines Trockners.
+Herzlich willkommen zum Tech-Camp bei Kannegiesser! Nachdem du in den ersten beiden Tagen in Zusammenarbeit mit der Ausbildungs- und Elektrowerkstadt deinen Trockner gebaut hast, werden wir uns auf eine Reise in die faszinierende Welt der Programmierung begeben und uns einem ganz besonderen Projekt widmen - der Programmierung deines Trockners. 
 
-Gemeinsam werden wir den Prozess durchlaufen, von der Einrichtung der notwendigen Software und Treiber auf deinem Windows-System bis hin zur Implementierung des Codes, der unseren Trockner zum Leben erweckt. Du wirst lernen, wie man Visual Studio Code einrichtet, die notwendigen Plugins installiert und die Treiber konfiguriert, die für unser Projekt benötigt werden.
+Gemeinsam werden wir den Prozess durchlaufen, von der Einrichtung der notwendigen Software und Treiber auf deinem Windows-System bis hin zur Implementierung des Codes, der unseren Trockner zum Leben erweckt. Du wirst lernen, wie man Visual Studio Code einrichtet, die notwendigen Plugins installiert und die Treiber konfiguriert, die für unser Projekt benötigt werden. 
 
-Egal, ob du ein erfahrener Programmierer bist oder gerade erst anfängst, das Tech-Camp bietet eine großartige Gelegenheit, praktische Erfahrungen zu sammeln und deine Fähigkeiten zu erweitern. Wir freuen uns darauf, dich bei dieser spannenden Reise zu begleiten!
+Egal, ob du ein erfahrener Programmierer bist oder gerade erst anfängst, das Tech-Camp bietet eine großartige Gelegenheit, praktische Erfahrungen zu sammeln und deine Fähigkeiten zu erweitern. Wir freuen uns darauf, dich bei dieser spannenden Reise zu begleiten! 
 
 # Anleitung zur Einrichtung von Visual Studio Code, Plugins und Treibern unter Windows
-In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einrichtung und Konfiguration von Visual Studio Code gehen, einschließlich der Installation der notwendigen Plugins und Treiber. Diese Anleitung ist sowohl für Anfänger als auch für erfahrene Benutzer gedacht und soll dazu beitragen, dass du schnell mit deiner Programmierarbeit beginnen kannst. Lass uns anfangen!
+In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einrichtung und Konfiguration von Visual Studio Code gehen, einschließlich der Installation der notwendigen Plugins und Treiber. Diese Anleitung ist sowohl für Anfänger als auch für erfahrene Benutzer gedacht und soll dazu beitragen, dass du schnell mit deiner Programmierarbeit beginnen kannst. Lass uns anfangen! 
 
 ### Bauteile
 
@@ -17,7 +17,7 @@ In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einric
   - ESP32 WROOM 32 240MHz, 320KB RAM, 4MB Flash
   - Batteriefach mit 3x AA
   - H-Brücke
-  - LED Streifen
+  - LED-Streifen
 
 #### Zusätzlich wirst du zum Erstellen des Programms benötigen:
 
@@ -42,9 +42,9 @@ In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einric
 
 ### Starten
 
-1. Nach der Installation von Visual Studio Code kannst du dieses über das Startmenü öffnen.
+1. Nach der Installation von Visual Studio Code kannst du dieses über das Startmenü öffnen. 
 
-2. Bei der ersten Verwendung wirst du aufgefordert, deine Einstellungen anzupassen. Du kannst die Standardeinstellungen beibehalten oder sie nach deinen Wünschen anpassen.
+2. Bei der ersten Verwendung wirst du aufgefordert, deine Einstellungen anzupassen. Du kannst die Standardeinstellungen beibehalten oder sie nach deinen Wünschen anpassen. 
 
 ## PlatformIO Plugin
 
@@ -282,7 +282,7 @@ strcpy(progname, "schnelles Trocknen");
 
 In diesem Code wird der Text "schnelles Trocknen" in die Variable `progname` kopiert.
 
-## Wäsche Verwaltung
+## Wäscheverwaltung
 Zum Testen: in den Online Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) kopieren.
 
 ### Code
