@@ -1,144 +1,167 @@
-# Tech-Camp ESP32 - Trockner mit LED-Stripes 
+<img src="images/logo.svg" alt="Logo" width="1000"/>
 
-## Bauteile
-- Trockner 
-- ESP32 WROOM 32 240MHz, 320KB RAM, 4MB Flash
-- Batteriefach mit 3x AA 
-- H-Brücke 
+# Tech-Camp: Kannegiesser
 
-zusätzlich wird zum Erstellen des Programms benötigt: 
+Herzlich willkommen zum Tech-Camp bei Kannegiesser! Nachdem du in den ersten beiden Tagen in Zusammenarbeit mit der Ausbildungs- und Elektrowerkstatt deinen Trockner gebaut hast, werden wir uns auf eine Reise in die faszinierende Welt der Programmierung begeben und uns einem ganz besonderen Projekt widmen - der Programmierung deines Trockners. 
+
+Gemeinsam werden wir den Prozess durchlaufen, von der Einrichtung der notwendigen Software und Treiber auf deinem Windows-System bis hin zur Implementierung des Codes, der unseren Trockner zum Leben erweckt. Du wirst lernen, wie man Visual Studio Code einrichtet, die notwendigen Plugins installiert und die Treiber konfiguriert, die für unser Projekt benötigt werden. 
+
+Egal, ob du ein erfahrener Programmierer bist oder gerade erst anfängst, das Tech-Camp bietet eine großartige Gelegenheit, praktische Erfahrungen zu sammeln und deine Fähigkeiten zu erweitern. Wir freuen uns darauf, dich bei dieser spannenden Reise zu begleiten!
+
+# WithoutUI
+In diesem Zweig findest du eine Testsoftware, die dir hilft zu überprüfen, ob dein Trockner richtig funktioniert. Lass uns kurz erklären, warum es so wichtig ist, in der Softwareentwicklung Testumgebungen zu haben und Tests durchzuführen.
+
+Das Testen in sogenannten “abgespeckten” Umgebungen, die man auch als “Staging” oder “Pre-Production” Umgebungen bezeichnet, ist ein super wichtiger Teil beim Entwickeln von Software. Hier sind ein paar Gründe, warum das so ist:
+
+1. Fehler finden: Wenn du die Software in einer Umgebung testest, die so ähnlich wie möglich zur echten Umgebung ist, in der die Software später laufen soll, kannst du Fehler und Probleme finden und beheben, bevor die Software wirklich benutzt wird. Das hilft dabei, dass die Software nicht plötzlich stehen bleibt und die Leute, die sie benutzen, zufriedener sind.
+
+2. Sicherheitstests: In abgespeckten Umgebungen kannst du Tests durchführen, um sicherzustellen, dass die Software sicher vor Angriffen aus dem Internet ist. Das ist besonders wichtig für Programme, die mit sensiblen Daten arbeiten.
+
+3. Qualität sichern: Wenn du in einer abgespeckten Umgebung testest, können Teams, die sich um die Qualität der Software kümmern, die Software genau unter die Lupe nehmen. So können sie sicherstellen, dass alles so funktioniert wie es soll und dass die Software das macht, was sie machen soll.
+
+Zusammengefasst hilft das Testen in abgespeckten Umgebungen dabei, dass die Qualität der Software besser wird, Risiken kleiner werden und am Ende ein besseres Produkt für die Leute entsteht, die es benutzen.
+
+# Anleitung zur Einrichtung von Visual Studio Code, Plugins und Treibern unter Windows
+In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einrichtung und Konfiguration von Visual Studio Code gehen, einschließlich der Installation der notwendigen Plugins und Treiber. Diese Anleitung ist sowohl für Anfänger als auch für erfahrene Benutzer gedacht und soll dazu beitragen, dass du schnell mit deiner Programmierarbeit beginnen kannst. Lass uns anfangen! 
+
+### Bauteile
+
+- Trockner
+  - ESP32 WROOM 32 240MHz, 320KB RAM, 4MB Flash
+  - Batteriefach mit 3x AA
+  - H-Brücke
+  - LED-Streifen
+
+#### Zusätzlich wirst du zum Erstellen des Programms benötigen:
+
 - USB-A Kabel mit USB-Micro-B (alte Ladekabel für z.B. Android-Handys)
-- Laptop mit Arduino IDE oder Visual Studio Code und PlatformIO-Erweiterung 
+- Laptop mit [Visual Studio Code](https://code.visualstudio.com/) mit [PlatformIO](https://platformio.org/)-Erweiterung
 
-## Wichtige Benutzerhinweise
-- Stecke den ESP niemals mit dem USB-Kabel an Spannung an, wenn das Batteriefach auf **AN** steht!
+### Wichtiger Benutzerhinweis
 
-## Software für Programm-Code
-Es gibt 2 möglichen Programme den Programm-Code für den ESP zu schreiben: 
-1. Arduino IDE
-    Vorteile: 
-    - Farbige Darstellung bestimmter Variablen, vor allem auch Arduino/ESP Spezifisch 
-    - Einfache Handhabung 
-    - übersichtliche Oberfläche
-    - Einfache Einrichtung des Programms
+**Stecke den ESP niemals mit dem USB-Kabel an Spannung an, wenn das Batteriefach auf AN steht!**
 
-    Nachteile:
-    - Nicht so praktisch, wenn man mehrere Dateien gleichzeitig anlegen möchte 
-    - Nicht so einfach bestimmte Bibliotheken zu finden
-    - kein Automatisches Einrücken 
-    - Evtl. nicht so viele Boards zum auswählen verfügbar 
-    - Kein einfaches auskommentieren/ ein kommentieren
-    - Im Großen und Ganzen für eine .ino Datei gedacht 
+## Visual Studio Code
 
+### Installation
 
-2. Visual Studio Code mit PlatformIO
-    Vorteile: 
-    - Einfacheres suchen nach Bibliotheken
-    - Überprüfung von C
-    - Markieren aller gleichen Wörter bei Doppelklick 
-    - Einfaches aus-/ein kommentieren
-    - Einfaches auswählen des richtigen Boards
-    - Serieller Monitor kann nach dem Kompilieren automatisch geöffnet werden 
+1. Öffne deinen Webbrowser und besuche die offizielle Visual Studio Code-Website:  
 
-    Nachteile: 
-    - Durch mehr Funktionen, Handhabung nicht ganz so leicht, evtl. etwas unübersichtlicher (Ordnerstruktur)
-    - andere Ordnerstruktur (benötigt .ini, im src den Programmcode, data-Ordner ist gleich)
-    - Filesystem hochladen sind mehrere Schritte nötig 
-    - Zum Einrichten mehrere Schritte nötig 
+    [https://code.visualstudio.com/](https://code.visualstudio.com/)
 
-#### Download-links und Einrichtung 
-1. Arduino IDE:
-    https://www.arduino.cc/en/software
+2. Klicke auf den Download-Button, um das Installationspaket für Windows herunterzuladen.
 
-2. Visual Studio Code mit PlatformIO: 
-    https://code.visualstudio.com/
-    - auf die Bausteine (Erweiterungen) -> PlatformIO IDE -> Installieren
+3. Nach dem Download öffne die Installationsdatei und folge den Anweisungen des Installationsassistenten, um Visual Studio Code auf deinem Gerät zu installieren.
 
+### Starten
 
-#### Richtiges Board auswählen 
-1. Arduino IDE: 
-- Werkzeuge -> Board -> ESP32 Bzw. Arduino auswählen 
+1. Nach der Installation von Visual Studio Code kannst du dieses über das Startmenü öffnen. 
 
-2. PlatformIO: 
-Bei "New Project" -> Board auswählen;
-Framework -> Arduino 
-Bzw. im Nachhinein: -> PIO Home -> Boards -> Suchen und Auswählen (-> platform.ini wird das Board eingetragen)
+2. Bei der ersten Verwendung wirst du aufgefordert, deine Einstellungen anzupassen. Du kannst die Standardeinstellungen beibehalten oder sie nach deinen Wünschen anpassen. 
 
-#### Bibliotheken hinzufügen 
-1. Arduino IDE: 
-- Werkzeuge -> Bibliotheken verwalten .. -> Suchen und installieren 
-2. Platform IO: 
-- PIO Home -> Libraries -> Suchen -> Add to Project -> Projektnamen auswählen -> Add
+## PlatformIO Plugin
 
-#### Richtiger Port auswählen 
-1. Arduino IDE: 
-- Werkzeuge -> Port 
-2. PlatformIO:
-- Mittiges Symbol mit Stecker -> Klicken -> Port evtl. ändern
+### Installation
 
-#### Serieller Monitor öffnen 
-1. Arduino IDE: 
-- Werkzeuge -> Serieller Monitor 
-2. PlatformIO: 
-- General -> Monitor bzw. Upload und Monitor (Code wird hochgeladen und der Monitor wird geöffnet)
+1. Öffne Visual Studio Code.
 
-#### Hochladen der DATA-Dateien 
-Lade die Dateien in den Data-Unterordner deines Programms
-1. Arduino IDE: 
-- Werkzeuge -> ESP32 Sketch Data Upload
-2. PlatformIO: 
-- Platform -> Build Filesystem Image 
-- Platform -> Upload Filesystem Image 
+2. Klicke auf das quadratische Symbol in der linken Seitenleiste, um den "Extensions"-Bereich zu öffnen.
 
-#### Hochladen Programmcode 
-Arduino IDE: 
-- mit dem Pfeil -> kannst du das Programm hochladen bzw. Sketch -> hochladen 
+3. Gib in das Suchfeld "PlatformIO" ein und suche nach dem entsprechenden Plugin.
 
-Visual Studio Code: 
-- PlatformIO-Icon -> Project Tasks -> General -> Upload 
+4. Klicke auf "Installieren", um das PlatformIO-Plugin zu installieren.
 
-## Code aus dem GitLab wieder auf den ESP laden 
-Du benötigst:
-- USB-Kabel, PC, Programmcode (GitLab)
+5. Nachdem die Installation erfolgreich abgeschlossen wurde, starte Visual Studio Code neu.
 
-Zuerst musst du den Code herunterladen und in einem Ordner speichern.
-Achtung! Nutzt du die Arduino IDE, so brauchst du den Code aus dem "Arduino IDE"-Pfad (Eine Datei davon ist eine .ino-Datei). Bei Visual Studio mit PlatformIO den Code aus dem Pfad "PlatformIO"(Eine Daei davon ist eine platformio.ini-Datei)
-Danach musst du sicherstellen, dass du eine geeignete Software besitzt (Arduino IDE bzw. Visual Studio Code mit PlatformIO).
-Wenn du diese nicht hast, dann schau in "Software für Programm-Code" nach, wie und wo du diese findest. 
-Als dritten Schritt öffnest du nun dein Programm und öffnest den Ordner mit dem Code. 
+6. Warte, bis alles automatisch konfiguriert worden ist.
 
-Arduino IDE: 
-- Datei -> Öffnen .. 
-- Arduinoprogramm "DeinProgramm".ino -> öffnen
+## USB-Treiber NodeMCU CP2102 (ESP 32)
 
-Visual Studio Code: 
-- PlatformIO-Icon -> PIO Home -> Open -> Open Project 
-- Ordner suchen, auswählen -> open 
+### Installation
 
+1. Lade den USB-Treiber: CP2102 von der offiziellen Silicon Labs-Website für dein Betriebssystem herunter: [Silicon Labs Treiberseite](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers)
 
-Nun das hochladen auf den ESP32
-- Stelle fest, dass der ESP32 an deinem PC angeschlossen ist und das Batteriefach aus ist 
-Hochladen funktioniert folgend: 
-Arduino IDE: 
-- mit dem Pfeil -> kannst du das Programm hochladen bzw. Sketch -> hochladen 
+2. Suche die heruntergeladene Datei in deinem Verzeichnis, klicke diese mit einem Rechtsklick an und wähle „Alle extrahieren“ aus, um die Datei zu entpacken.
 
-Visual Studio Code: 
-- PlatformIO-Icon -> Project Tasks -> General -> Upload
+3. Navigiere in den entpackten Ordner und suche nach der „silabser.inf“ Datei.
 
+4. Klicke nun mit der rechten Maustaste auf die „silabser.inf“ Datei und wähle „Installieren“ aus.
 
-## Wie funktioniert der Code im Großen und Ganzen? 
-Wir haben eine "Main" Datei. Diese enthält standardmäßig immer ein Setup (Definition der Outputs/Inputs) und ein Loop (Schleife), der immer wieder durchlaufen wird, bis keine Spannung mehr angeschlossen wird. 
-Im Setup können jedoch auch Methoden und Funktionen aufgerufen werden, die nicht immer wieder wiederholt werden. 
+5. Folge nun dem Installationssetup, bis der Treiber erfolgreich installiert wurde.
 
-Wozu  .h und und .cpp?
-Wir haben die Funktionen und den Setupcode des Trockners, sowie der LED, ausgelagert, sodass die Main übersichtlicher bleibt. Diese Funktionen und der Setupcode findet man in den jeweiligen .cpp. 
-Die .h Datei ist eine Besonderheit in der c-Programmierung und sorgt allein dafür, dass die Main weiß welche Funktionen sie auch verwenden darf aus den .cpp.
+### Installation Testen (Optional):
 
-## main.cpp:
-In der Main legen wir im Setup einen sogenannten Async-Webserver an. Außer Betracht lassen wir jetzt mal für was das Async gut ist. Viel wichtiger ist, dass es ein Webserver ist und dieser stellt unseren Server für die Website, die wir nachher aufrufen können. 
-Dieser bekommt zusätzlich noch die Information, dass er auf unseren HTML-Code, die CSS und unsere Bilddateien für die Website Zugriff hat, sodass der Server diese Website "bauen" kann. 
-Eine weitere Funktion hat er jedoch auch noch: Sobald er einen bestimmten Pfad bekommt (ausgelöst durch die Buttons der Oberfläche), ruft er die entsprechende Funktion unseres Trockners bzw. unserer LED auf. 
+1. Öffne den Windows-Geräte-Manager, indem du in der Windows-Suche "Geräte-Manager" eingibst.
 
-Der HTML-Code beschreibt, was die Seite alles für Elemente besitzt und dass der Richtige Pfad aufgerufen wird, beim Button-Click. 
-Der CSS-Teil ist zuletzt dann für alles Grafische der Website zuständig. 
-Diese beiden Dateien sind im "data"-Ordner ausgelagert und befinden sich in der SD-Karte des ESPs. Genauso werden dort auch alle Bilder gespeichert.
+2. In der Kategorie „Anschlüsse (COM & LPT)" findest du nun den "Silicon Labs CP210x USB to UART Bridge". Solltest du diesen nicht sehen, ist bei der Treiberinstallation etwas schiefgelaufen, springe dann zum Abschnitt USB-Treiber installieren und führe die Schritte erneut aus.
+
+## Repository
+
+### Download
+
+1. Öffne deinen Webbrowser und besuche das folgende Github-Repository:
+
+    [https://github.com/KannegiesserTechCamp/Dryer](https://github.com/KannegiesserTechCamp/Dryer)
+
+2. Wenn du einen anderen Branch auswählen willst, klicke auf „main“ und wähle diesen in dem Dropdown-Menü aus.
+
+3. Zum Download drücke auf den grünen Button „Code“ und wähle „Download ZIP“ aus.
+
+### Entpacken
+
+1. Suche die heruntergeladene Datei in deinem Verzeichnis, klicke diese mit einem Rechtsklick an und wähle „Alle extrahieren“ aus, um die Datei zu entpacken.
+
+## Funktionstest des ESP32 (Mikro Controller)
+
+1. Starte Visual Studio Code und öffne das PlatformIO Plugin (Seitenleiste links).
+
+2. Wähle unter Quick Access „Open“ aus, klicke auf „Open Project“ und wähle deinen Projektordner (z.B. “Dryer-main”) aus (standardmäßig ist das Projekt im Downloadordner zu finden).
+   Diese Einrichtung kann einen Moment dauern.
+
+3. Öffne nun wieder das PlatformIO Plugin und führe links im Reiter einen „Full Clean“ durch.
+
+4. Optional für den Main Branch:
+
+   Daraufhin wähle links im Reiter „PROJECT TASKS“ den Punkt „Build Filesystem Image“ aus.
+
+   Nach dem erfolgreichen Beenden des Schrittes wähle links im Reiter „Upload Filesystem Image“ aus und warte bis im Terminal „SUCCESS“ steht.
+
+   Nun wähle links im Reiter „Build“ aus und warte ebenfalls bis im Terminal „SUCCESS“ steht.
+
+   Nun wähle links im Reiter „Upload and Monitor“ aus und warte ebenfalls bis im Terminal „SUCCESS“ steht.
+
+## Ein tieferer Einblick in den Code
+
+Unser Code besteht hauptsächlich aus einer "Main"-Datei. Diese Datei enthält immer ein Setup, in dem die Outputs/Inputs definiert werden, und eine Schleife (Loop), die ständig durchlaufen wird, solange Spannung anliegt. Im Setup können auch Methoden und Funktionen aufgerufen werden, die nicht ständig wiederholt werden müssen.
+
+Die .h und .cpp Dateien spielen eine wichtige Rolle in unserer Code-Struktur. Wir haben die Funktionen und den Setup-Code des Trockners sowie der LED in separate .cpp Dateien ausgelagert, um die "Main"-Datei übersichtlicher zu gestalten. Die .h Datei ist eine Besonderheit in der C-Programmierung und stellt sicher, dass die "Main"-Datei weiß, welche Funktionen sie aus den .cpp Dateien verwenden darf.
+
+In der "main.cpp" legen wir im Setup einen sogenannten Async-Webserver an. Dieser Webserver stellt unseren Server für die Website dar, die wir später aufrufen können. Er erhält zusätzlich Informationen zu unserem HTML-Code, CSS und unseren Bilddateien für die Website, sodass der Server diese Website "bauen" kann. Eine weitere Funktion des Webservers ist es, bei Erhalt eines bestimmten Pfades (ausgelöst durch die Buttons der Oberfläche) die entsprechende Funktion unseres Trockners bzw. unserer LED aufzurufen.
+
+Der HTML-Code beschreibt die Elemente der Seite und stellt sicher, dass der richtige Pfad aufgerufen wird, wenn ein Button geklickt wird. Der CSS-Teil ist für das grafische Design der Website zuständig. Beide Dateien sind im "data"-Ordner ausgelagert und befinden sich auf der SD-Karte des ESPs. Dort werden auch alle Bilder gespeichert.
+
+Die bereitgestellte Quelle enthält den Code für die "main.cpp"-Datei, einschließlich der Einbindung externer Bibliotheken, Definitionen von Konstanten und lokalen Variablen sowie dem Code zum Öffnen des Dateisystems.
+
+## Router Verbindung einrichten
+
+### WLAN-Konfiguration
+
+Trage die richtige SSID (dies ist der Name deines Routers) und das Passwort des Routers in der “src/main.cpp” Datei ein. (Der Abschnitt befindet sich in Zeile 23 bis Zeile 27 in der Datei)
+
+<img src="images/code_snippet.png" alt="code_snippel" width="1000"/>
+
+### FritzBox-Oberfläche (optional)
+
+1. Öffne einen Webbrowser auf deinem Computer oder einem anderen Gerät, das mit dem gleichen Netzwerk wie deine FritzBox verbunden ist.
+2. Gib die IP-Adresse deiner FritzBox in die Adressleiste des Browsers ein und drücke die Eingabetaste. Die Standard-IP-Adresse der FritzBox lautet normalerweise "192.168.178.1". Überprüfe die Dokumentation deiner FritzBox, wenn du dir nicht sicher bist. 
+3. Gib das FritzBox-Passwort ein, um dich in die FritzBox-Oberfläche einzuloggen. Dieses Passwort findest du normalerweise auf einem Aufkleber auf deiner FritzBox oder in der Dokumentation. 
+4. Navigiere in der FritzBox-Oberfläche zu den Heimnetz-Einstellungen und klicke auf den Punkt "Netzwerk". Der genaue Pfad kann je nach FritzBox-Modell variieren. Du solltest jedoch eine Option finden, die dir die Liste der aktuell verbundenen Geräte anzeigt. 
+5. In der Liste der verbundenen Geräte suche nach dem Eintrag für deinen ESP32. Der Name oder die IP-Adresse des ESP32 sollte dort aufgeführt sein, wenn er erfolgreich mit der FritzBox verbunden ist.
+<img src="images/FritzBox_Dashboard.png" alt="Dashboard" width="1000"/>
+
+6. Um eine feste IPv4 Adresse festzulegen, drücke bitte auf den Stift des entsprechenden ESPs und suche nach dem Punkt “Adressen im Heimnetz (IP-Adressen)” und wähle „Diesem Netzwerkgerät immer die gleiche IPv4-Adresse zuweisen.“ aus und setze hier bitte den Haken. Hierdurch bekommt das Gerät jedes Mal die gleiche IPv4 Adresse zugewiesen.
+<img src="images/FritzBox_IPv4.png" alt="IPv4" width="1000"/>
+
+### Überprüfe die Serielle Ausgabe (optional)
+
+Wenn du während der Programmierung des ESP32 die serielle Ausgabe für Debugging-Zwecke aktiviert hast, kannst du auch die serielle Ausgabe überprüfen, um den Verbindungsstatus zu überprüfen. Wenn der ESP32 erfolgreich eine Verbindung zu deinem WLAN herstellt, sollte dies in der seriellen Ausgabe angezeigt werden.
