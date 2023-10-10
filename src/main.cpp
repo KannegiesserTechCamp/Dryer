@@ -67,17 +67,34 @@ Du kannst die Trommel des Trockners langsam anlaufen und bremsen lassen, LEDs in
 #include "animated_rainbow.h"
 #include "bouncing_pixel.h"
 #include "morse_code.h"
+#include "kontrolle.h"
 
-void setup() 
+void setup()
 {
   // Die beiden Funktionen müssen hier an erster Stelle stehen bleiben.
   MotorInitialisierung();
   LedInitialisierung();
 }
 
-void loop() 
+void loop()
 {
+    // MUSTERLÖSUNGWN
+
+    // Folie 1, Aufgabe 1
+    //Eins_MotorBeschleunigenUndStoppen(100, 5000);
+
+    // Folie 1, Aufgabe 2
+    //Zwei_HellerWerdenUndWiederAusgehen();
+
+    // Folie 1, Aufgabe 3
+    //Drei_BlinkenUndFarbeWechseln();
+
+    // Folie 2, Aufgabe 1
+    //Vier_BlinkenUndDrehen();
+
+
+    // BEISPIELE
     //AnimierterRegenbogen(10);
     //bouncing_pixel(magenta, schwarz, 250, 10);
-    morse_code(weiss, 300, 10);
+    //morse_code(weiss, 300, 10);
 }
