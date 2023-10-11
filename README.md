@@ -46,11 +46,9 @@ In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einric
 
 2. Bei der ersten Verwendung wirst du aufgefordert, deine Einstellungen anzupassen. Du kannst die Standardeinstellungen beibehalten oder sie nach deinen Wünschen anpassen.
    
-4. Um die Sprache anzupassen, öffnest du den Reiter “Extensions” und suchst nach “German
-   
-Language Pack for Visual Studio Code” und installierst das Paket.
+3. Um die Sprache anzupassen, öffnest du den Reiter “Extensions” und suchst nach “German Language Pack for Visual Studio Code” und installierst das Paket.
 
-6. Nachdem du die Erweiterung erfolgreich installiert hast, starte das Programm neu, um alle
+4. Nachdem du die Erweiterung erfolgreich installiert hast, starte das Programm neu, um alle
 Änderung wirksam zu machen.
 
 ## PlatformIO Plugin
