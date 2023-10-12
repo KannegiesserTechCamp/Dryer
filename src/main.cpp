@@ -78,7 +78,7 @@ void setup()
 
 void loop()
 {
-    // MUSTERLÖSUNGWN
+    // MUSTERLÖSUNGEN (in lib\Musterloesungen\kontrolle.h)
 
     // Folie 1, Aufgabe 1
     //Eins_MotorBeschleunigenUndStoppen(100, 5000);
@@ -94,7 +94,7 @@ void loop()
 
 
     // BEISPIELE
-    //AnimierterRegenbogen(10);
-    //bouncing_pixel(magenta, schwarz, 250, 10);
-    //morse_code(weiss, 300, 10);
+    //AnimierterRegenbogen(10); // in lib\Beispiele\animated_rainbow.h
+    //bouncing_pixel(magenta, schwarz, 250, 10); // in lib\Beispiele\bouncing_pixel.h
+    //morse_code(weiss, 300, 10); // in lib\Beispiele\morse_code.h
 }
