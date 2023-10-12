@@ -1,7 +1,7 @@
 # Tech-Camp ESP32 - Trockner mit LED-Stripes 
 
 ## Dieser Branch
-Dieser Branch enthält folgende Veränderungen gegenüber dem Branch `sandbox`.
+Dieser Branch enthält folgende Veränderungen gegenüber dem Branch `sandbox`:
 ### Beispiele
 - [`lib/Beispiele/animated_rainbow.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Beispiele/animated_rainbow.h)
 - [`lib/Beispiele/bouncing_pixel.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Beispiele/bouncing_pixel.h)
