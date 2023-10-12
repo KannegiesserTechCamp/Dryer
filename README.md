@@ -1,5 +1,19 @@
 # Tech-Camp ESP32 - Trockner mit LED-Stripes 
 
+## Dieser Branch
+Dieser Branch enthält folgende Veränderungen gegenüber dem Branch `sandbox`.
+### Beispiele
+- [`lib/Beispiele/animated_rainbow.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Beispiele/animated_rainbow.h)
+- [`lib/Beispiele/bouncing_pixel.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Beispiele/bouncing_pixel.h)
+- [`lib/Beispiele/morse_code.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Beispiele/morse_code.h)
+
+### Musterlösungen
+
+- [`lib/Musterloesungen/kontrolle.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Musterloesungen/kontrolle.h)
+
+### [`LED.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/LED/LED.h) / [`LED.cpp`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/LED/LED.cpp)
+- Farbe `orange` ist hinzugefügt
+
 ## Bauteile
 - Trockner 
 - ESP32 WROOM 32 240MHz, 320KB RAM, 4MB Flash
