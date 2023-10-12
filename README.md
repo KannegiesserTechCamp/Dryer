@@ -1,6 +1,6 @@
 <img src="images/logo.svg" alt="Logo" width="1000"/>
 
-## Dieser Branch
+# Dieser Branch
 Dieser Branch enthält folgende Veränderungen gegenüber dem Branch `sandbox`:
 ### Beispiele
 - [`lib/Beispiele/animated_rainbow.h`](https://github.com/KannegiesserTechCamp/Dryer/blob/sandbox_beispiele/lib/Beispiele/animated_rainbow.h)
