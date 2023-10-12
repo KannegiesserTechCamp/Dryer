@@ -39,9 +39,6 @@ RgbColor GetRgbColor(Farbe Farbe, uint8_t Helligkeit)
         case blau:
             return RgbColor(0, 0, ui8Helligkeit);
             
-        case lila:
-            return RgbColor(ui8Helligkeit, 0, ui8Helligkeit);
-            
         case gelb:
             return RgbColor(ui8Helligkeit, ui8Helligkeit, 0);
 

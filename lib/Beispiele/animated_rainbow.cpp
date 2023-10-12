@@ -22,7 +22,7 @@ void FarbenAnwendenUndUmbrechen(int anzahl, int versatz, Farbe farben[7], uint8_
 int versatz = 0;
 
 void AnimierterRegenbogen(uint8_t helligkeit) {
-    Farbe farben[7] = {rot, orange, gelb, gruen, blau, lila, schwarz};
+    Farbe farben[7] = {rot, orange, gelb, gruen, blau, magenta, schwarz};
     FarbenAnwendenUndUmbrechen(6, versatz, farben, helligkeit);
 
     WarteMillisekunden(250);
