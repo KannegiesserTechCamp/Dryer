@@ -69,16 +69,18 @@ void setup()
   // Die beiden Funktionen müssen hier an erster Stelle stehen bleiben.
   MotorInitialisierung();
   LedInitialisierung();
-  
-
+  MotorGeschwindigkeit(80);
 
 }
 
 void loop() 
 {
 
-
-
-
+  LedLeisteFarbeHelligkeit(blau, 100);
+  MotorDrehenRechts();
+  WarteSekunden(3);
+  LedLeisteFarbeHelligkeit(rot, 100);
+  MotorDrehenLinks();
+  WarteSekunden(3);
 
 }
