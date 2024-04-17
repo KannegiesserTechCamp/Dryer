@@ -45,8 +45,6 @@ AsyncWebServer server(80);  // Object of WebServer(HTTP port, 80 is default)
 #define PATH_TO_DRYER_BUTTON_IMAGE "/Trocknerbutton.png"
 #define PATH_TO_LOGO_IMAGE "/logo.png"
 
-File WebpageHTMLFILE;
-File WebFile2;
 String WebpageHTML;
 String Css;
 
@@ -165,8 +163,8 @@ void setup() {
 
     if (exists(PATH_TO_HTML))
     { 
-        WebpageHTMLFILE = FILESYSTEM.open(PATH_TO_HTML,"r");
-        WebpageHTML = WebpageHTMLFILE.readString();
+        File file = SPIFFS.open(PATH_TO_HTML, "r");    
+        WebpageHTML = file.readString();  
     }
     else
     {
@@ -176,8 +174,8 @@ void setup() {
     //CSS Pfad lesen 
     if (exists(PATH_TO_CSS)) 
     {
-        WebFile2 = FILESYSTEM.open(PATH_TO_CSS,"r");
-        Css = WebFile2.readString();
+        File file = SPIFFS.open(PATH_TO_CSS, "r");    
+        Css = file.readString();
     }
     else
     {
