@@ -158,245 +158,212 @@ Trage die richtige SSID (dies ist der Name deines Routers) und das Passwort des 
 
 Wenn du während der Programmierung des ESP32 die serielle Ausgabe für Debugging-Zwecke aktiviert hast, kannst du auch die serielle Ausgabe überprüfen, um den Verbindungsstatus zu überprüfen. Wenn der ESP32 erfolgreich eine Verbindung zu deinem WLAN herstellt, sollte dies in der seriellen Ausgabe angezeigt werden.
 
-# C++ Programmierung:
-Die folgenden Beispiele können mit Hilfe des Online-Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) getestet werden.
-Weitere Materialien zur Programmierung sind in dem folgenden Verzeichnis verfügbar: [einführung_cpp](https://github.com/KannegiesserTechCamp/einfuerung_cpp)
+# Python Programmierung:
+Die folgenden Beispiele können mit Hilfe des Online-Compilers von [Programiz](https://www.programiz.com/python-programming/online-compiler/) getestet werden.
 
 
 ## Digitaler Trockner
 
 ### Code
 
-```cpp
-// Einbinden der Standardbibliotheken für Ein-/Ausgabe und Zeichenkettenverarbeitung
-// 'stdio.h' ist für grundlegende Ein- und Ausgabeoperationen wie printf und scanf.
-// 'string.h' ist für Operationen auf Zeichenketten (Strings) wie strcpy.
-#include <stdio.h>
-#include <string.h>
+```Python
+# in 'startup' wird die Startoption des Benutzers (0, 1 oder 2) gespeichert
+# in 'prog' wird die Programmoption des Benutzers (0, 1 oder 2) gespeichert
+# in 'progname' wird der Name vom gewählten, oder des neuen Programmes gespeichert
+startup = 0
+prog = 0
+progname = ""
 
-// Die main-Funktion ist der Einstiegspunkt für das Programm.
-int main() {
-    // Deklaration der Variablen
-    // 'startup' und 'prog' sind Ganzzahlvariablen (int), 'progname' 
-    //ist ein Zeichenkettenarray (char array).
-    int startup;
-    int prog;
-    char progname[124];
-    
-    // Ausgabe der Optionen für den Benutzer
-    // printf wird verwendet, um Text auf dem Bildschirm auszugeben.
-    printf("Tippe:\n\t\t (0) zum Beenden \n\t\t (1) zum starten \n\t\t (2) für neues Programm \n");
-    
-    // Einlesen der Benutzereingabe
-    // scanf wird verwendet, um die Eingabe des Benutzers zu lesen. '%i' bedeutet, 
-    //dass eine Ganzzahl erwartet wird.
-    scanf("%i", &startup);
-    
-    // Überprüfung der Benutzereingabe und Ausführung des entsprechenden Codes
-    // Die if-else-Anweisungen überprüfen den Wert von 'startup' und 
-    //führen den entsprechenden Codeblock aus.
-    if(startup == 0){
-        printf("Du hast dich für das Beenden des Trockners entschieden\n");
-    }
-    else if(startup == 1){
-        printf("Der Trockner wird hochgefahren\n");
-        printf("\t\t3\n\t\t2\n\t\t1\n\t\t0\n");
-        printf("Trockner gestartet\n");
-        printf("bereit zum Trocknen\n");
-        
-        printf("Waehle eines der folgenden Programme zum Trocknen aus:\n");
-        printf("\t(1) \t schnelles Trocknen\n");
-        printf("\t(2) \t Schleudertrauma\n");
-        printf("\t(3) \t Presskuchen\n");
-        
-        scanf("%i", &prog);
-        printf("Du hast dich für das folgenden Programm entschieden");
-        if(prog == 1){
-            // Kopieren des Programmnamens in die Variable 'progname'
-            strcpy(progname, "schnelles Trocknen");  
-        } else if(prog == 2){
-            strcpy(progname, "Schleudertrauma");
-        }else if(prog == 3){
-            strcpy(progname, "Presskuchen");
-        }
-    }
-    else if(startup == 2){
-        printf("Du hast dich für das neue Programm entschieden\n");
-        printf("Gebe im Folgenden den Namen deines neuen Programms ein:\n");
-        // Einlesen des neuen Programmnamens
-        scanf("%s", &progname);  
-        
-        printf("Das Programm mit dem Namen: \n\t %s \nwurde erstellt\n", progname);
-    }
-    else{
-        printf("Du hast leider keine der möglichen Eingaben (0), (1) gemacht \n");
-    }
-    
-    printf("Der Trockner wird heruntergefahren und beendet");
-    return 0;  // Beendet die main-Funktion und gibt den Wert 0 zurück.
-}
+# Ausgabe der Optionen für den Benutzer
+print("Tippe:\n\t\t (0) zum Beenden \n\t\t (1) zum starten \n\t\t (2) für neues Programm")
+
+# Einlesen der Benutzereingabe
+startup = int(input())
+
+# Überprüfung der Benutzereingabe und Ausführung des entsprechenden Codes
+if startup == 0:
+    print("Du hast dich für das Beenden des Trockners entschieden")
+
+elif startup == 1:
+    print("Der Trockner wird hochgefahren")
+    print("\t\t3\n\t\t2\n\t\t1\n\t\t0")
+    print("Trockner gestartet")
+    print("bereit zum Trocknen")
+
+    print("Waehle eines der folgenden Programme zum Trocknen aus:")
+    print("\t(1) \t schnelles Trocknen")
+    print("\t(2) \t Schleudertrauma")
+    print("\t(3) \t Presskuchen")
+
+    scanf = int(input())
+    print("Du hast dich für das folgenden Programm entschieden", end="")
+
+    if prog == 1:
+        # Zuweisung des Programmnamens an die Variable 'progname'
+        progname = "schnelles Trocknen"
+    elif prog == 2:
+        progname = "Schleudertrauma"
+    elif prog == 3:
+        progname = "Presskuchen"
+
+elif startup == 2:
+    print("Du hast dich für das neue Programm entschieden")
+    print("Gebe im Folgenden den Namen deines neuen Programms ein:")
+    # Einlesen des neuen Programmnamens
+    progname = input()
+
+    print(f"Das Programm mit dem Namen: \n\t {progname} \nwurde erstellt")
+
+else:
+    print("Du hast leider keine der möglichen Eingaben (0), (1) gemacht")
+
+print("Der Trockner wird heruntergefahren und beendet", end="")
 ```
-Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Der Benutzer kann den Trockner starten und ein Trockenprogramm auswählen, ein neues Programm erstellen oder den Trockner beenden. Die Auswahl des Benutzers wird über die Standard-Eingabe eingelesen und entsprechend verarbeitet. Der Code verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Zeichenkettenoperationen.
+Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Der Benutzer kann den Trockner starten und ein Trockenprogramm auswählen, ein neues Programm erstellen oder den Trockner beenden. Die Auswahl des Benutzers wird über die Standard-Eingabe eingelesen und entsprechend verarbeitet. Der Code verwendet grundlegende Konzepte der Programmierung wie Variableninitialisierung, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Zeichenkettenoperationen.
 
-Zum Testen: in den Online-Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) kopieren.
+Zum Testen: in den Online-Compilers von [Programiz](https://www.programiz.com/python-programming/online-compiler/) kopieren.
 
 ## Ausführliche Einführung
 
-Dieses Programm stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Es verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Zeichenkettenoperationen.
+Dieses Programm stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Es verwendet grundlegende Konzepte der Python-Programmierung wie Variableninitialisierung, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Zeichenkettenoperationen.
 
-### Variablendeklaration
+### Variableninitialisierung
 
-In C müssen alle Variablen vor ihrer Verwendung deklariert werden. Eine Variablendeklaration gibt den Variablennamen und den Typ an. Zum Beispiel:
-
-```cpp
-int startup;
-int prog;
-char progname[124];
+In Python können Variablen direkt bei der ersten Zuweisung erstellt werden, ohne vorher einen Typ anzugeben. Zum Beispiel:
+```python
+startup = 0
+prog = 0
+progname = ""
 ```
-
-In diesem Code werden zwei Ganzzahlvariablen (`startup` und `prog`) und ein Zeichenkettenarray (`progname`) deklariert.
+In diesem Code werden zwei Ganzzahlvariablen (`startup` und `prog`) mit dem Startwert `0` 
+und eine Zeichenkettenvariable (`progname`) mit einem leeren String `""` initialisiert.
 
 ### Ein- und Ausgabe
 
-Die Funktionen `printf` und `scanf` werden für die Ein- und Ausgabe verwendet. `printf` wird verwendet, um Text auf dem Bildschirm auszugeben, und `scanf` wird verwendet, um die Eingabe des Benutzers zu lesen.
+Die Funktionen `print` und `input` werden für die Ein- und Ausgabe verwendet. `print` wird 
+verwendet, um Text auf dem Bildschirm auszugeben, und `input` wird verwendet, um die Eingabe 
+des Benutzers zu lesen.
 
 ### Kontrollstrukturen
 
-Die if-else-Anweisungen werden verwendet, um zu überprüfen, ob eine Bedingung erfüllt ist, und um den entsprechenden Codeblock auszuführen. Zum Beispiel:
-
-```cpp
-if(startup == 0){
-    printf("Du hast dich für das Beenden des Trockners entschieden\n");
-}
-else if(startup == 1){
-    // Code für den Fall, dass 'startup' gleich 1 ist
-}
-else{
-    // Code für den Fall, dass keine der vorherigen Bedingungen erfüllt ist
-}
+Die if-else-Anweisungen werden verwendet, um zu überprüfen, ob eine Bedingung erfüllt ist, 
+und um den entsprechenden Codeblock auszuführen. Zum Beispiel:
+```python
+if startup == 0:
+    print("Du hast dich für das Beenden des Trockners entschieden")
+elif startup == 1:
+    # Code für den Fall, dass 'startup' gleich 1 ist
+else:
+    # Code für den Fall, dass keine der vorherigen Bedingungen erfüllt ist
 ```
-
-### Zeichenkettenoperationen
-
-Die Funktion `strcpy` wird verwendet, um eine Zeichenkette in eine andere zu kopieren. Zum Beispiel:
-
-```cpp
-strcpy(progname, "schnelles Trocknen");
-```
-
-In diesem Code wird der Text "schnelles Trocknen" in die Variable `progname` kopiert.
 
 ## Wäscheverwaltung
-Zum Testen: in den Online-Compilers von [Programiz](https://www.programiz.com/cpp-programming/online-compiler/) kopieren.
+Zum Testen: in den Online-Compilers von [Programiz](https://www.programiz.com/python-programming/online-compiler/) kopieren.
 
 ### Code
 
-```cpp
-// Die Standardbibliothek 'stdio.h' wird eingebunden, um grundlegende Ein-/Ausgabeoperationen wie printf und scanf zu ermöglichen.
-#include <stdio.h>
+```python
+# Die Funktion 'waschen' nimmt einen String 'farbe' als Parameter an. Dieser String
+# repräsentiert die Farbe der Wäsche, die gewaschen werden soll.
+def waschen(farbe):
+    # Die if-else-if-Anweisung überprüft, welche Farbe die Wäsche hat, und gibt eine
+    # entsprechende Nachricht aus.
+    if farbe == 'b':
+        print("Blaue Waesche wird gewaschen")
+    elif farbe == 'r':
+        print("Rote Waesche wird gewaschen")
+    elif farbe == 'g':
+        print("Gruene Waesche wird gewaschen")
+    elif farbe == 'w':
+        print("Weisse Wasche wird gewaschen")
+    elif farbe == 's':
+        print("Schwarze Wasche wird gewaschen")
+    else:
+        # Wenn keine der obigen Bedingungen erfüllt ist (d.h., die Farbe ist nicht
+        # blau, rot, grün, weiß oder schwarz), wird angenommen, dass die Wäsche bunt ist.
+        print("\t\t Diese Farbe ist unbekannt")
+        print("\t\t Die bunte Waesche wird gewaschen")
 
-// Die Funktion 'waschen' nimmt einen Charakter 'farbe' als Parameter an. Dieser Charakter repräsentiert die Farbe der Wäsche, die gewaschen werden soll.
-void waschen(char farbe){
-    // Die if-else-if-Anweisung überprüft, welche Farbe die Wäsche hat, und gibt eine entsprechende Nachricht aus.
-    if(farbe == 'b'){
-        printf("Blaue Waesche wird gewaschen\n");
-    }else if(farbe == 'r'){
-        printf("Rote Waesche wird gewaschen\n");
-    }else if(farbe == 'g'){
-        printf("Gruene Waesche wird gewaschen\n");
-    }else if(farbe == 'w'){
-        printf("Weisse Wasche wird gewaschen\n");
-    }else if(farbe == 's'){
-        printf("Schwarze Wasche wird gewaschen\n");
-    }else{
-        // Wenn keine der obigen Bedingungen erfüllt ist (d.h., die Farbe ist nicht blau, rot, grün, weiß oder schwarz), wird angenommen, dass die Wäsche bunt ist.
-        printf("\t\t Diese Farbe ist unbekannt\n");
-        printf("\t\t Die bunte Waesche wird gewaschen\n");
-    }
-}
 
-// Die main-Funktion ist der Einstiegspunkt für das Programm. In C-Programmen muss es immer eine main-Funktion geben.
-int main() {
-    // Deklaration der Variablen
-    // 'exit' ist eine boolesche Variable, die bestimmt, ob die Hauptschleife des Programms weiterlaufen soll.
-    // 'anzahl' ist eine Ganzzahlvariable, die die Anzahl der Wäschestapel speichert.
-    // 'fertig' ist eine Ganzzahlvariable, die verwendet wird, um zu überprüfen, ob der Benutzer weitere Stapel hinzufügen möchte.
-    // 'farbe' ist eine Zeichenvariable (char), die die Farbe der Wäsche speichert.
-    bool exit = true;
-    int anzahl;
-    int fertig;
-    char farbe;
-    
-    // Ausgabe der Einführungsnachricht
-    printf("Dies ist eine Aufnahmestelle fuer die Verwaltung von Waesche\n");
-    
-    // Hauptschleife des Programms. Sie läuft so lange, bis der Benutzer entscheidet, dass keine weiteren Stapel hinzugefügt werden sollen.
-    while(exit){
-        // Aufforderung zur Eingabe der Anzahl und Farbe der Wäschestapel
-        printf("Gebe im folgenden Format: Anzahl(int) Farbe(char) an, was fuer Waesche angeliefert wurde\n");
-        scanf("%i %c", &anzahl, &farbe);
-        
-        // Schleife zum Waschen jedes Wäschestapels
-        for(int i=0; i< anzahl; i++){
-            printf("Stapel-Nr. %i  ", i+1);
-            waschen(farbe);
-        }
-        
-        // Aufforderung zur Eingabe, ob weitere Stapel verteilt werden sollen
-        printf("Sollen weitere Stapel verteilt werden? Nein (0), Ja (1)\n");
-        scanf("%i", &fertig);
-        if(fertig == 0){
-            exit = false;
-        }
-    }
-    
-    // Ausgabe der Abschlussnachricht
-    printf("Wir haben es geschafft, alle Stapel konnten sortiert werden");
-    
-    return 0;  // Beendet die main-Funktion und gibt den Wert 0 zurück. In C bedeutet ein Rückgabewert von 0 in der main-Funktion, dass das Programm erfolgreich ausgeführt wurde.
-}
+# Deklaration der Variablen
+# 'exit' ist eine boolesche Variable, die bestimmt, ob die Hauptschleife des Programms weiterlaufen soll.
+# 'anzahl' ist eine Ganzzahlvariable, die die Anzahl der Wäschestapel speichert.
+# 'fertig' ist eine Ganzzahlvariable, die verwendet wird, um zu überprüfen, ob der Benutzer weitere Stapel hinzufügen möchte.
+# 'farbe' ist eine Zeichenkettenvariable (str), die die Farbe der Wäsche speichert.
+exit = True
+anzahl = 0
+fertig = 0
+farbe = ""
+
+# Ausgabe der Einführungsnachricht
+print("Dies ist eine Aufnahmestelle fuer die Verwaltung von Waesche")
+
+# Hauptschleife des Programms. Sie läuft so lange, bis der Benutzer entscheidet,
+# dass keine weiteren Stapel hinzugefügt werden sollen.
+while exit:
+    # Aufforderung zur Eingabe der Anzahl und Farbe der Wäschestapel
+    print("Gebe im folgenden Format: Anzahl(int) Farbe(char) an, was fuer Waesche angeliefert wurde")
+    eingabe = input().split()
+    anzahl = int(eingabe[0])
+    farbe = eingabe[1]
+
+    # Schleife zum Waschen jedes Wäschestapels
+    for i in range(anzahl):
+        print(f"Stapel-Nr. {i + 1}  ", end="")
+        waschen(farbe)
+
+    # Aufforderung zur Eingabe, ob weitere Stapel verteilt werden sollen
+    print("Sollen weitere Stapel verteilt werden? Nein (0), Ja (1)")
+    fertig = int(input())
+    if fertig == 0:
+        exit = False
+
+# Ausgabe der Abschlussnachricht
+print("Wir haben es geschafft, alle Stapel konnten sortiert werden", end="")
 ```
 
-Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer die Anzahl und Farbe von Wäschestapeln eingeben kann, die gewaschen werden sollen. Der Benutzer kann dann angeben, ob weitere Stapel verteilt werden sollen oder nicht. Der Code verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen und Schleifen) und Funktionen.
+Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer die Anzahl und Farbe von Wäschestapeln eingeben kann, die gewaschen werden sollen. Der Benutzer kann dann angeben, ob weitere Stapel verteilt werden sollen oder nicht. Der Code verwendet grundlegende Konzepte der Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen und Schleifen) und Funktionen.
 
 ## Ausführliche Einführung
 
-Dieses Programm stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer verschiedene Optionen für einen digitalen Trockner auswählen kann. Es verwendet grundlegende Konzepte der C-Programmierung wie Variablendeklaration, Ein- und Ausgabe, Kontrollstrukturen (if-else-Anweisungen) und Funktionen.
+### Variableninitialisierung
 
-### Variablendeklaration
-
-In C müssen alle Variablen vor ihrer Verwendung deklariert werden. Dies gibt den Variablennamen und den Typ an. Zum Beispiel:
-
-```cpp
-bool exit = true;
-int anzahl;
-int fertig;
-char farbe;
+In Python werden Variablen direkt mit einem Startwert initialisiert. Der Datentyp wird 
+dabei automatisch aus dem zugewiesenen Wert abgeleitet. Zum Beispiel:
+```python
+exit = true
+anzahl = 0
+fertig = 0
+farbe = ""
 ```
 
-In diesem Code werden eine boolesche Variable (`exit`), zwei Ganzzahlvariablen (`anzahl` und `fertig`) und eine Zeichenvariable (`farbe`) deklariert.
+In diesem Code werden eine boolesche Variable (`exit`), zwei Ganzzahlvariablen (`anzahl` und `fertig`) mit dem Startwert `0` 
+und eine Zeichenkettenvariable (`farbe`) mit einem ``leeren String `""` initialisiert.
 
 ### Ein- und Ausgabe
 
-Die Funktionen `printf` und `scanf` werden für die Ein- und Ausgabe verwendet. `printf` wird verwendet, um Text auf dem Bildschirm auszugeben, und `scanf` wird verwendet, um die Eingabe des Benutzers zu lesen.
+Die Funktionen `print` und `input` werden für die Ein- und Ausgabe verwendet. `print` wird 
+verwendet, um Text auf dem Bildschirm auszugeben, und `input` wird verwendet, um die Eingabe 
+des Benutzers zu lesen.
 
 ### Kontrollstrukturen
 
-Die if-else-Anweisungen werden verwendet, um zu überprüfen, ob eine Bedingung erfüllt ist, und um den entsprechenden Codeblock auszuführen. Zum Beispiel:
-
-```cpp
-if(farbe == 'b'){
-    printf("Blaue Waesche wird gewaschen\n");
-}else if(farbe == 'r'){
-    printf("Rote Waesche wird gewaschen\n");
-}else if(farbe == 'g'){
-    printf("Gruene Waesche wird gewaschen\n");
-}else{
-    printf("\t\t Diese Farbe ist unbekannt\n");
-    printf("\t\t Die bunte Waesche wird gewaschen\n");
-}
+Die if-else-Anweisungen werden verwendet, um zu überprüfen, ob eine Bedingung erfüllt ist, 
+und um den entsprechenden Codeblock auszuführen. Zum Beispiel:
+```python
+if farbe == 'b':
+    print("Blaue Waesche wird gewaschen")
+elif farbe == 'r':
+    print("Rote Waesche wird gewaschen")
+elif farbe == 'g':
+    print("Gruene Waesche wird gewaschen")
+else:
+    print("\t\t Diese Farbe ist unbekannt")
+    print("\t\t Die bunte Waesche wird gewaschen")
 ```
 
 ### Funktionen
 
-Eine Funktion ist ein Block von Code, der eine bestimmte Aufgabe ausführt. In diesem Programm gibt es zwei Funktionen: `main` und `waschen`. Die `main`-Funktion ist der Einstiegspunkt des Programms, während die `waschen`-Funktion dazu dient, die Wäsche basierend auf ihrer Farbe zu waschen.
+Eine Funktion ist ein Block von Code, der eine bestimmte Aufgabe ausführt. In diesem Programm 
+gibt es eine Funktion: `waschen`. Die `waschen`-Funktion dient dazu, die Wäsche basierend auf 
+ihrer Farbe zu waschen. In Python werden Funktionen mit dem Schlüsselwort `def` definiert.
