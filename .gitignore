@@ -1,2 +1,5 @@
 /.pio
 /.vscode
+__pycache__/
+*.pyc
+.mpremote*
