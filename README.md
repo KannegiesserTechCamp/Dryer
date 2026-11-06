@@ -1,4 +1,4 @@
-<img src="images/logo.svg" alt="Logo" width="1000"/>
+<img src="web/logo.svg" alt="Logo" width="1000"/>
 
 # Tech-Camp: Kannegiesser
 
@@ -8,8 +8,9 @@ Gemeinsam werden wir den Prozess durchlaufen, von der Einrichtung der notwendige
 
 Egal, ob du ein erfahrener Programmierer bist oder gerade erst anfängst, das Tech-Camp bietet eine großartige Gelegenheit, praktische Erfahrungen zu sammeln und deine Fähigkeiten zu erweitern. Wir freuen uns darauf, dich bei dieser spannenden Reise zu begleiten! 
 
-# Anleitung zur Einrichtung von Visual Studio Code, Plugins und Treibern unter Windows
-In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einrichtung und Konfiguration von Visual Studio Code gehen, einschließlich der Installation der notwendigen Plugins und Treiber. Diese Anleitung ist sowohl für Anfänger als auch für erfahrene Benutzer gedacht und soll dazu beitragen, dass du schnell mit deiner Programmierarbeit beginnen kannst. Lass uns anfangen! 
+# Anleitung zur Einrichtung von Visual Studio Code unter Windows
+
+In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einrichtung und Konfiguration von Visual Studio Code gehen, einschließlich der Installation der notwendigen Tools für die Python-Programmierung. Diese Anleitung ist sowohl für Anfänger als auch für erfahrene Benutzer gedacht und soll dazu beitragen, dass du schnell mit deiner Programmierarbeit beginnen kannst. Lass uns anfangen! 
 
 ### Bauteile
 
@@ -22,7 +23,9 @@ In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einric
 #### Zusätzlich wirst du zum Erstellen des Programms benötigen:
 
 - USB-A Kabel mit USB-Micro-B (alte Ladekabel für z.B. Android-Handys)
-- Laptop mit [Visual Studio Code](https://code.visualstudio.com/) mit [PlatformIO](https://platformio.org/)-Erweiterung
+- Laptop mit [Visual Studio Code](https://code.visualstudio.com/)
+- [Python](https://www.python.org/downloads/) (mit `pip` zum Installieren von Paketen)
+- MicroPython-Tool `mpremote` (installierbar via `pip install mpremote`)
 
 ### Wichtiger Benutzerhinweis
 
@@ -51,21 +54,48 @@ In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einric
 4. Nachdem du die Erweiterung erfolgreich installiert hast, starte das Programm neu, um alle
 Änderung wirksam zu machen.
 
-## PlatformIO Plugin
+## Python und MicroPython einrichten
 
-### Installation
+### Python installieren
 
-1. Öffne Visual Studio Code.
+1. Lade Python von der offiziellen Website herunter: [https://www.python.org/downloads/](https://www.python.org/downloads/)
 
-2. Klicke auf das quadratische Symbol in der linken Seitenleiste, um den "Extensions"-Bereich zu öffnen.
+2. Während der Installation **wichtig**: Hake “Add Python to PATH” an, damit Python über die Kommandozeile erreichbar ist.
 
-3. Gib in das Suchfeld "PlatformIO" ein und suche nach dem entsprechenden Plugin.
+3. Nach der Installation öffne eine Eingabeaufforderung (cmd) oder PowerShell und prüfe die Installation mit:
 
-4. Klicke auf "Installieren", um das PlatformIO-Plugin zu installieren.
+   ```powershell
+   python --version
+   ```
 
-5. Nachdem die Installation erfolgreich abgeschlossen wurde, starte Visual Studio Code neu.
+### MicroPython-Tool mpremote installieren
 
-6. Warte, bis alles automatisch konfiguriert worden ist.
+Das Tool `mpremote` wird benötigt, um die Python-Dateien auf den ESP32 zu übertragen. Installiere es mit:
+
+```powershell
+pip install mpremote
+```
+
+### MicroPython-Firmware auf den ESP32 flashen
+
+Damit der ESP32 Python-Code ausführen kann, muss die MicroPython-Firmware aufgespielt werden:
+
+1. Lade die passende MicroPython-Firmware für den ESP32 herunter (z. B. von [micropython.org](https://micropython.org/download/esp32/)).
+
+2. Installiere `esptool.py` falls noch nicht vorhanden:
+
+   ```powershell
+   pip install esptool
+   ```
+
+3. Schließe den ESP32 per USB an deinen Laptop an und ermittele den COM-Port (im Windows-Geräte-Manager unter “Anschlüsse (COM & LPT)”).
+
+4. Lösche den ESP32 und spiele die Firmware auf (ersetze `COMx` durch deinen Port und `firmware.bin` durch die heruntergeladene Datei):
+
+   ```powershell
+   python -m esptool --port COMx erase_flash
+   python -m esptool --port COMx --baud 460800 write_flash -z 0x1000 firmware.bin
+   ```
 
 ## USB-Treiber NodeMCU CP2102 (ESP 32)
 
@@ -103,60 +133,57 @@ In dieser Anleitung werden wir Schritt für Schritt durch den Prozess der Einric
 
 1. Suche die heruntergeladene Datei in deinem Verzeichnis, klicke diese mit einem Rechtsklick an und wähle „Alle extrahieren“ aus, um die Datei zu entpacken.
 
-## Funktionstest des ESP32 (Mikro Controller)
+## Code auf den ESP32 übertragen und starten
 
-1. Starte Visual Studio Code und öffne das PlatformIO Plugin (Seitenleiste links).
+Statt PlatformIO wird hier `mpremote` verwendet, um die Python-Dateien auf den ESP32 zu kopieren.
 
-2. Wähle unter Quick Access „Open“ aus, klicke auf „Open Project“ und wähle deinen Projektordner (z.B. “Dryer-main”) aus (standardmäßig ist das Projekt im Downloadordner zu finden).
-   Diese Einrichtung kann einen Moment dauern.
+1. Schließe den ESP32 per USB an deinen Laptop an.
 
-3. Öffne nun wieder das PlatformIO Plugin und führe links im Reiter einen „Full Clean“ durch.
+2. Öffne Visual Studio Code im Projektordner und starte ein Terminal (PowerShell).
 
-4. Optional für den Main Branch:
+3. Führe das Deployment-Skript aus:
 
-   Daraufhin wähle links im Reiter „PROJECT TASKS“ den Punkt „Build Filesystem Image“ aus.
+   ```powershell
+   .\deploy.ps1
+   ```
 
-   Nach dem erfolgreichen Beenden des Schrittes wähle links im Reiter „Upload Filesystem Image“ aus und warte bis im Terminal „SUCCESS“ steht.
+   Das Skript kopiert alle Python-Dateien (`config.py`, `dryer.py`, `led.py`, `web_server.py`, `main.py`) sowie die Web-Assets (`web/`) auf den ESP32 und startet das Gerät neu.
 
-   Nun wähle links im Reiter „Build“ aus und warte ebenfalls bis im Terminal „SUCCESS“ steht.
+4. Nach dem Neustart startet `main.py` automatisch. Die serielle Ausgabe zeigt die IP-Adresse des Access Points an, z. B.:
 
-   Nun wähle links im Reiter „Upload and Monitor“ aus und warte ebenfalls bis im Terminal „SUCCESS“ steht.
+   ```
+   Starting Access Point: Trockner-01
+   AP-IP: 192.168.4.1
+   Open in browser: http://192.168.4.1
+   ```
 
-## Ein tieferer Einblick in den Code
+5. Verbinde dein Smartphone oder deinen Laptop mit dem WiFi `Trockner-01` (Passwort: `Kannegiesser`) und öffne im Browser die angezeigte IP-Adresse (standardmäßig `http://192.168.4.1`).
 
-Unser Code besteht hauptsächlich aus einer "Main"-Datei. Diese Datei enthält immer ein Setup, in dem die Outputs/Inputs definiert werden, und eine Schleife (Loop), die ständig durchlaufen wird, solange Spannung anliegt. Im Setup können auch Methoden und Funktionen aufgerufen werden, die nicht ständig wiederholt werden müssen.
+## Projektstruktur
 
-Die .h und .cpp Dateien spielen eine wichtige Rolle in unserer Code-Struktur. Wir haben die Funktionen und den Setup-Code des Trockners sowie der LED in separate .cpp Dateien ausgelagert, um die "Main"-Datei übersichtlicher zu gestalten. Die .h Datei ist eine Besonderheit in der C-Programmierung und stellt sicher, dass die "Main"-Datei weiß, welche Funktionen sie aus den .cpp Dateien verwenden darf.
+Das Projekt besteht aus folgenden Python-Dateien:
 
-In der "main.cpp" legen wir im Setup einen sogenannten Async-Webserver an. Dieser Webserver stellt unseren Server für die Website dar, die wir später aufrufen können. Er erhält zusätzlich Informationen zu unserem HTML-Code, CSS und unseren Bilddateien für die Website, sodass der Server diese Website "bauen" kann. Eine weitere Funktion des Webservers ist es, bei Erhalt eines bestimmten Pfades (ausgelöst durch die Buttons der Oberfläche) die entsprechende Funktion unseres Trockners bzw. unserer LED aufzurufen.
+| Datei | Beschreibung |
+|-------|--------------|
+| `main.py` | Einstiegspunkt. Startet den WiFi Access Point, den Webserver und die Hardware-Schleife (LED und Motor) mit `uasyncio`. |
+| `config.py` | Konfiguration (WLAN-SSID/Passwort, GPIO-Pins, Motor-Rampen, LED-Helligkeit, Webserver-Port). |
+| `dryer.py` | Motorsteuerung über die H-Brücke mit PWM und sanften Anfahrts-/Bremsrampen. |
+| `led.py` | Steuerung des NeoPixel-LED-Streifens mit Atmungseffekt (Helligkeit auf und ab). |
+| `web_server.py` | Kleiner asynchroner HTTP-Server. Liefert die Weboberfläche aus (`web/`) und verarbeitet POST-Anfragen für Bewegung und Licht. |
+| `web/` | HTML-, CSS- und Bilddateien für die Weboberfläche. |
+| `deploy.ps1` | PowerShell-Skript zum Übertragen aller Dateien auf den ESP32 via `mpremote`. |
 
-Der HTML-Code beschreibt die Elemente der Seite und stellt sicher, dass der richtige Pfad aufgerufen wird, wenn ein Button geklickt wird. Der CSS-Teil ist für das grafische Design der Website zuständig. Beide Dateien sind im "data"-Ordner ausgelagert und befinden sich auf der SD-Karte des ESPs. Dort werden auch alle Bilder gespeichert.
+## WLAN-Verbindung (Access Point)
 
-Die bereitgestellte Quelle enthält den Code für die "main.cpp"-Datei, einschließlich der Einbindung externer Bibliotheken, Definitionen von Konstanten und lokalen Variablen sowie dem Code zum Öffnen des Dateisystems.
+Das Programm richtet auf dem ESP32 einen eigenen **WiFi Access Point** ein. Du verbindest dich direkt mit dem Trockner, keine Router- oder FritzBox-Konfiguration ist nötig.
 
-## Router Verbindung einrichten
-
-### WLAN-Konfiguration
-
-Trage die richtige SSID (dies ist der Name deines Routers) und das Passwort des Routers in der “src/main.cpp” Datei ein. (Der Abschnitt befindet sich in Zeile 23 bis Zeile 27 in der Datei)
-
-<img src="images/code_snippet.png" alt="code_snippel" width="1000"/>
-
-### FritzBox-Oberfläche (optional)
-
-1. Öffne einen Webbrowser auf deinem Computer oder einem anderen Gerät, das mit dem gleichen Netzwerk wie deine FritzBox verbunden ist.
-2. Gib die IP-Adresse deiner FritzBox in die Adressleiste des Browsers ein und drücke die Eingabetaste. Die Standard-IP-Adresse der FritzBox lautet normalerweise "192.168.178.1". Überprüfe die Dokumentation deiner FritzBox, wenn du dir nicht sicher bist. 
-3. Gib das FritzBox-Passwort ein, um dich in die FritzBox-Oberfläche einzuloggen. Dieses Passwort findest du normalerweise auf einem Aufkleber auf deiner FritzBox oder in der Dokumentation. 
-4. Navigiere in der FritzBox-Oberfläche zu den Heimnetz-Einstellungen und klicke auf den Punkt "Netzwerk". Der genaue Pfad kann je nach FritzBox-Modell variieren. Du solltest jedoch eine Option finden, die dir die Liste der aktuell verbundenen Geräte anzeigt. 
-5. In der Liste der verbundenen Geräte suche nach dem Eintrag für deinen ESP32. Der Name oder die IP-Adresse des ESP32 sollte dort aufgeführt sein, wenn er erfolgreich mit der FritzBox verbunden ist.
-<img src="images/FritzBox_Dashboard.png" alt="Dashboard" width="1000"/>
-
-6. Um eine feste IPv4 Adresse festzulegen, drücke bitte auf den Stift des entsprechenden ESPs und suche nach dem Punkt “Adressen im Heimnetz (IP-Adressen)” und wähle „Diesem Netzwerkgerät immer die gleiche IPv4-Adresse zuweisen.“ aus und setze hier bitte den Haken. Hierdurch bekommt das Gerät jedes Mal die gleiche IPv4 Adresse zugewiesen.
-<img src="images/FritzBox_IPv4.png" alt="IPv4" width="1000"/>
+- SSID: `Trockner-01` (in `config.py` anpassbar)
+- Passwort: `Kannegiesser` (in `config.py` anpassbar)
+- Standard-IP: `192.168.4.1` (wird im Terminal nach dem Start angezeigt)
 
 ### Überprüfe die Serielle Ausgabe (optional)
 
-Wenn du während der Programmierung des ESP32 die serielle Ausgabe für Debugging-Zwecke aktiviert hast, kannst du auch die serielle Ausgabe überprüfen, um den Verbindungsstatus zu überprüfen. Wenn der ESP32 erfolgreich eine Verbindung zu deinem WLAN herstellt, sollte dies in der seriellen Ausgabe angezeigt werden.
+Wenn du während der Programmierung die serielle Ausgabe für Debugging-Zwecke aktiviert hast, kannst du sie über ein Terminal-Programm (z. B. den Serial Monitor in VS Code oder `mpremote repl`) überwachen. Wenn der ESP32 erfolgreich den Access Point gestartet hat, wird die IP-Adresse angezeigt.
 
 # Python Programmierung:
 Die folgenden Beispiele können mit Hilfe des Online-Compilers von [Programiz](https://www.programiz.com/python-programming/online-compiler/) getestet werden.
@@ -195,7 +222,7 @@ elif startup == 1:
     print("\t(2) \t Schleudertrauma")
     print("\t(3) \t Presskuchen")
 
-    scanf = int(input())
+    prog = int(input())
     print("Du hast dich für das folgenden Programm entschieden", end="")
 
     if prog == 1:
@@ -331,7 +358,7 @@ Dieser Code stellt ein einfaches Menü zur Verfügung, mit dem der Benutzer die 
 In Python werden Variablen direkt mit einem Startwert initialisiert. Der Datentyp wird 
 dabei automatisch aus dem zugewiesenen Wert abgeleitet. Zum Beispiel:
 ```python
-exit = true
+exit = True
 anzahl = 0
 fertig = 0
 farbe = ""
