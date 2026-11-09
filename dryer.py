@@ -135,3 +135,15 @@ def MotorOff():
     _pwm2.duty(0)
     _pwm3.duty(0)
     _pwm4.duty(0)
+
+
+def motor_stopped():
+    # Gibt True zurück, wenn der Motor vollständig stehen geblieben ist
+    # (step_motor == 0 und ramp_counter == 0)
+    return step_motor == 0 and ramp_counter == 0
+
+
+def motor_stopped():
+    # Gibt True zurück, wenn der Motor vollständig stehen geblieben ist
+    # (step_motor == 0 und ramp_counter == 0)
+    return step_motor == 0 and ramp_counter == 0

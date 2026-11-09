@@ -3,3 +3,9 @@
 __pycache__/
 *.pyc
 .mpremote*
+*.pyo
+*.pyd
+*.log
+*.log.*
+.DS_Store
+Thumbs.db
