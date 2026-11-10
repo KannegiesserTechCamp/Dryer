@@ -14,23 +14,21 @@ ap.config(essid=config.AP_SSID, password=config.AP_PASSWORD)
 # Motor state
 motor_mode = "stop"
 motor_pending = None
-motor_transition_until = 0
-TRANSITION_DELAY_MS = 4000
 
 
 def on_movement(direction):
     # Movement handler called by web server
-    global motor_mode, motor_pending, motor_transition_until
+    global motor_mode, motor_pending
     print("Movement:", direction)
-
-    now = time.ticks_ms()
 
     if direction == "left":
         if motor_mode == "motorRight":
             # Motor runs right - brake first, then switch to left
             motor_mode = "stopright"
             motor_pending = "motorLeft"
-            motor_transition_until = time.ticks_add(now, TRANSITION_DELAY_MS)
+        elif motor_mode == "stop":
+            # Start from standstill to left
+            motor_mode = "motorLeft"
         elif motor_mode in ("stop", "stopleft", "stopright"):
             # Already stopped or running left - do nothing
             pass
@@ -40,7 +38,9 @@ def on_movement(direction):
             # Motor runs left - brake first, then switch to right
             motor_mode = "stopleft"
             motor_pending = "motorRight"
-            motor_transition_until = time.ticks_add(now, TRANSITION_DELAY_MS)
+        elif motor_mode == "stop":
+            # Start from standstill to right
+            motor_mode = "motorRight"
         elif motor_mode in ("stop", "stopleft", "stopright"):
             # Already stopped or running right - do nothing
             pass
@@ -70,30 +70,7 @@ async def hardware_loop():
     while True:
         now = time.ticks_ms()
 
-        # Check if a pending direction change needs to be processed
-        if motor_pending is not None:
-            # Wait time elapsed?
-            if time.ticks_diff(now, motor_transition_until) >= 0:
-                # Motor must have actually stopped
-                if dryer.motor_stopped():
-                    motor_mode = motor_pending
-                    motor_pending = None
-                else:
-                    # Motor still braking, wait a bit longer
-                    await asyncio.sleep_ms(100)
-                    continue
-            else:
-                # Wait time not elapsed yet
-                await asyncio.sleep_ms(100)
-                continue
-
-        # LED
-        if led.get_status():
-            led.led_loop()
-        else:
-            led.led_off()
-
-        # Motor
+        # Motor: always run the control function (also during braking/transition)
         if motor_mode == "motorRight":
             dryer.MotorRight()
         elif motor_mode == "motorLeft":
@@ -104,6 +81,18 @@ async def hardware_loop():
             dryer.MotorStopRight()
         elif motor_mode == "stop":
             dryer.MotorOff()
+
+        # Check if a pending direction change needs to be processed
+        if motor_pending is not None:
+            if dryer.motor_stopped():
+                motor_mode = motor_pending
+                motor_pending = None
+
+        # LED
+        if led.get_status():
+            led.led_loop()
+        else:
+            led.led_off()
 
         await asyncio.sleep_ms(20)
 
