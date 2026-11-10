@@ -135,7 +135,18 @@ Damit der ESP32 Python-Code ausführen kann, muss die MicroPython-Firmware aufge
 
 ## Code auf den ESP32 übertragen und starten
 
-Statt PlatformIO wird hier `mpremote` verwendet, um die Python-Dateien auf den ESP32 zu kopieren.
+Das Standard-Deployment erfolgt mit PowerShell und `deploy.ps1`. Das Skript führt einen Full Build durch und löscht dabei den Flash-Speicher des ESP32. Dabei werden optional das Filesystem, anschließend die Firmware sowie die Python- und Web-Dateien übertragen.
+
+> **Wichtiger Hinweis:** Beim Full Build wird der Flash-Speicher gelöscht. Sichere benötigte Daten vorher und führe das Skript nur aus, wenn der richtige COM-Port angeschlossen ist.
+
+Voraussetzungen:
+
+- PowerShell im Projektordner
+- Python im PATH
+- installiertes `mpremote` (`pip install mpremote`)
+- angeschlossener ESP32 mit bekanntem COM-Port
+- `ESPTool\esptool.exe` und `fw\installation.exe` im Projektordner
+- optional `fs\spiffs.bin` für das Filesystem-Image
 
 1. Schließe den ESP32 per USB an deinen Laptop an.
 
@@ -144,10 +155,10 @@ Statt PlatformIO wird hier `mpremote` verwendet, um die Python-Dateien auf den E
 3. Führe das Deployment-Skript aus:
 
    ```powershell
-   .\deploy.ps1
+    .\deploy.ps1 -Port COM3
    ```
 
-   Das Skript kopiert alle Python-Dateien (`config.py`, `dryer.py`, `led.py`, `web_server.py`, `main.py`) sowie die Web-Assets (`web/`) auf den ESP32 und startet das Gerät neu.
+    Ersetze `COM3` durch den COM-Port deines ESP32. Der Full Build löscht zunächst den Flash, schreibt `fs\spiffs.bin` optional an Adresse `0x290000`, führt `fw\installation.exe` aus und überträgt anschließend die Dateien aus `pytrockner/`, die Root-Python-Dateien und die Web-Assets. Bei Datei- und Firmware-Schritten werden Fehler begrenzt wiederholt; bei einem endgültigen Fehler bricht das Deployment ab.
 
 4. Nach dem Neustart startet `main.py` automatisch. Die serielle Ausgabe zeigt die IP-Adresse des Access Points an, z. B.:
 
@@ -157,11 +168,15 @@ Statt PlatformIO wird hier `mpremote` verwendet, um die Python-Dateien auf den E
    Open in browser: http://192.168.4.1
    ```
 
-5. Verbinde dein Smartphone oder deinen Laptop mit dem WiFi `Trockner-01` (Passwort: `Kannegiesser`) und öffne im Browser die angezeigte IP-Adresse (standardmäßig `http://192.168.4.1`).
+5. Verbinde dein Smartphone oder deinen Laptop mit dem in `config.py` festgelegten WLAN und öffne im Browser die angezeigte IP-Adresse (standardmäßig `http://192.168.4.1`).
+
+### Backup-Deployment
+
+`deploy_backup.ps1` ist eine ältere Minimalvariante. Sie löscht den Flash nicht, flasht keine Firmware und kopiert nur die Root-Python-Dateien sowie die Web-Assets. Verwende sie nur, wenn der bestehende Firmware- und Filesystem-Stand erhalten bleiben soll.
 
 ## Projektstruktur
 
-Das Projekt besteht aus folgenden Python-Dateien:
+Der aktive Webbetrieb verwendet die Python-Dateien im Projektstamm:
 
 | Datei | Beschreibung |
 |-------|--------------|
@@ -171,19 +186,45 @@ Das Projekt besteht aus folgenden Python-Dateien:
 | `led.py` | Steuerung des NeoPixel-LED-Streifens mit Atmungseffekt (Helligkeit auf und ab). |
 | `web_server.py` | Kleiner asynchroner HTTP-Server. Liefert die Weboberfläche aus (`web/`) und verarbeitet POST-Anfragen für Bewegung und Licht. |
 | `web/` | HTML-, CSS- und Bilddateien für die Weboberfläche. |
-| `deploy.ps1` | PowerShell-Skript zum Übertragen aller Dateien auf den ESP32 via `mpremote`. |
+| `deploy.ps1` | PowerShell-Full-Build: Flash löschen, optionales Filesystem und Firmware installieren, Dateien übertragen und ESP32 zurücksetzen. |
+| `deploy_backup.ps1` | Ältere Minimalvariante ohne Flash-Löschung und Firmware-Installation. |
+
+Zusätzliche Verzeichnisse:
+
+| Verzeichnis | Beschreibung |
+|-------------|--------------|
+| `pytrockner/` | Ältere bzw. lehrorientierte Steuerungsstruktur mit eigenen Motor- und LED-Modulen. Sie enthält eine andere Motoransteuerung als `dryer.py`; für den dokumentierten Webbetrieb ist der Root-Pfad maßgeblich. |
+| `fs/` | Binäres Filesystem-Image `spiffs.bin`, das vom Full Build optional geflasht wird. |
+| `fw/` | Mitgelieferte Firmware-Installation `installation.exe` und zugehörige Laufzeitdateien. |
+
+Die Weboberfläche in `web/` bietet Tasten für die Bewegung nach links, die Bewegung nach rechts und Stopp sowie einen Lichtschalter. Der ESP32 verarbeitet dafür unter anderem `POST /movement/left`, `POST /movement/right`, `POST /movement/stop` und `POST /light`.
 
 ## WLAN-Verbindung (Access Point)
 
 Das Programm richtet auf dem ESP32 einen eigenen **WiFi Access Point** ein. Du verbindest dich direkt mit dem Trockner, keine Router- oder FritzBox-Konfiguration ist nötig.
 
-- SSID: `Trockner-01` (in `config.py` anpassbar)
-- Passwort: `Kannegiesser` (in `config.py` anpassbar)
+- WLAN-Name: `Trockner-01` als Beispielwert aus `config.py`
+- Passwort: `Kannegiesser` als Beispielwert aus `config.py`
 - Standard-IP: `192.168.4.1` (wird im Terminal nach dem Start angezeigt)
+
+### Eigenen WLAN-Namen und eigenes Passwort wählen
+
+Ändere vor dem Deployment in `config.py` die beiden Werte `AP_SSID` und `AP_PASSWORD`:
+
+```python
+AP_SSID = "Mein-Trockner"
+AP_PASSWORD = "EigenesPasswort123"
+```
+
+Wähle einen eindeutigen WLAN-Namen und ein eigenes, ausreichend langes Passwort. Verwende die Beispielwerte nicht dauerhaft. Nach dem Deployment verbindest du dein Smartphone oder deinen Laptop mit diesen eigenen Zugangsdaten. Das WLAN ist ein lokaler Access Point ohne Benutzeranmeldung am Webserver; die Verbindung läuft unverschlüsselt über HTTP.
+
+Die IP-Adresse wird beim Start über `ap.ifconfig()[0]` ausgegeben. `192.168.4.1` ist der erwartete Standardwert, kann aber je nach Firmware- oder Netzwerkkonfiguration abweichen. Die Motorsteuerung setzt Richtungswechsel zunächst über einen Bremsvorgang um. Für den Betrieb müssen H-Brücke, Motor und sieben LEDs entsprechend der Pinbelegung in `config.py` angeschlossen sein.
 
 ### Überprüfe die Serielle Ausgabe (optional)
 
 Wenn du während der Programmierung die serielle Ausgabe für Debugging-Zwecke aktiviert hast, kannst du sie über ein Terminal-Programm (z. B. den Serial Monitor in VS Code oder `mpremote repl`) überwachen. Wenn der ESP32 erfolgreich den Access Point gestartet hat, wird die IP-Adresse angezeigt.
+
+Die folgenden Beispiele sind eigenständige Konsolenbeispiele für den Python-Unterricht. Sie werden nicht von `main.py` auf dem ESP32 ausgeführt.
 
 # Python Programmierung:
 Die folgenden Beispiele können mit Hilfe des Online-Compilers von [Programiz](https://www.programiz.com/python-programming/online-compiler/) getestet werden.
