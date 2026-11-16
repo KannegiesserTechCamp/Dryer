@@ -77,23 +77,31 @@ Write-Host ""
 Write-Host "" -ForegroundColor Cyan
 Write-Host "=== Full Build Sequenz ===" -ForegroundColor Cyan
 Write-Host "1. Erase Flash" -ForegroundColor Cyan
-Write-Host "2. Upload Filesystem" -ForegroundColor Cyan
-Write-Host "3. Firmware" -ForegroundColor Cyan
+Write-Host "2. Firmware" -ForegroundColor Cyan
+Write-Host "3. Upload Filesystem" -ForegroundColor Cyan
 Write-Host "4. Upload Files" -ForegroundColor Cyan
 Write-Host ""
 
 # ---------------------------------------------------------------------------
-# 2.1 Erase Flash
+# 2.1 Firmware (installation.exe - muss vorhanden sein, sonst Abbruch) - mit Retry
 # ---------------------------------------------------------------------------
-Write-Host "[FB/1] Lösche ESP32 Flash..." -ForegroundColor Yellow
-& $esptoolPath --port $Port erase-flash
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "   FEHLER beim Löschen des Flash! Full Build abgebrochen." -ForegroundColor Red
+$firmwareFile = Join-Path $projectDir "fw\installation.exe"
+if (-not (Test-Path $firmwareFile)) {
+    Write-Host "   FEHLER: installation.exe nicht gefunden! Full Build abgebrochen." -ForegroundColor Red
     exit 1
 }
-Write-Host "   Flash erfolgreich gelöscht." -ForegroundColor Green
-Write-Host "   Warte auf ESP32-Neustart (2s)..." -ForegroundColor Gray
-Start-Sleep -Seconds 2
+Write-Host "[FB/1] Flashe Firmware (installation.exe)..." -ForegroundColor Yellow
+Write-Host "   Datei: $firmwareFile" -ForegroundColor Gray
+$ok = Invoke-WithRetry -Name "Firmware-Flash" -MaxAttempts $MaxAttempts -DelaySeconds $RetryDelaySeconds -Action {
+    & "$firmwareFile"
+}
+if (-not $ok) {
+    Write-Host "   FEHLER beim Firmware-Flash! Full Build abgebrochen." -ForegroundColor Red
+    exit 1
+}
+Write-Host "   Firmware erfolgreich geflasht." -ForegroundColor Green
+Write-Host "   Warte auf ESP32-Neustart (5s)..." -ForegroundColor Gray
+Start-Sleep -Seconds 5
 
 # ---------------------------------------------------------------------------
 # 2.2 Upload Filesystem (spiffs.bin)
@@ -118,35 +126,14 @@ Write-Host "   Warte auf ESP32-Neustart (5s)..." -ForegroundColor Gray
 Start-Sleep -Seconds 5
 
 # ---------------------------------------------------------------------------
-# 2.3 Firmware (installation.exe - muss vorhanden sein, sonst Abbruch) - mit Retry
-# ---------------------------------------------------------------------------
-$firmwareFile = Join-Path $projectDir "fw\installation.exe"
-if (-not (Test-Path $firmwareFile)) {
-    Write-Host "   FEHLER: installation.exe nicht gefunden! Full Build abgebrochen." -ForegroundColor Red
-    exit 1
-}
-Write-Host "[FB/3] Flashe Firmware (installation.exe)..." -ForegroundColor Yellow
-Write-Host "   Datei: $firmwareFile" -ForegroundColor Gray
-$ok = Invoke-WithRetry -Name "Firmware-Flash" -MaxAttempts $MaxAttempts -DelaySeconds $RetryDelaySeconds -Action {
-    & "$firmwareFile"
-}
-if (-not $ok) {
-    Write-Host "   FEHLER beim Firmware-Flash! Full Build abgebrochen." -ForegroundColor Red
-    exit 1
-}
-Write-Host "   Firmware erfolgreich geflasht." -ForegroundColor Green
-Write-Host "   Warte auf ESP32-Neustart (5s)..." -ForegroundColor Gray
-Start-Sleep -Seconds 5
-
-# ---------------------------------------------------------------------------
-# 2.4 Upload Files (pytrockner/ rekursiv)
+# 2.3 Upload Files (pytrockner/ rekursiv)
 # ---------------------------------------------------------------------------
 $pyTrocknerDir = Join-Path $projectDir "pytrockner"
 if (-not (Test-Path $pyTrocknerDir)) {
     Write-Host "   FEHLER: Verzeichnis pytrockner/ nicht gefunden! Full Build abgebrochen." -ForegroundColor Red
     exit 1
 }
-Write-Host "[FB/4] Lade Dateien aus pytrockner/ hoch..." -ForegroundColor Yellow
+Write-Host "[FB/3] Lade Dateien aus pytrockner/ hoch..." -ForegroundColor Yellow
 
 $script:uploadedFiles = @()
 
@@ -193,9 +180,9 @@ Write-Host "=== Full Build Sequenz abgeschlossen ===" -ForegroundColor Cyan
 Write-Host ""
 
 # ---------------------------------------------------------------------------
-# 5. Prüfen ob mpremote erreichbar ist (nach Full Build, da Firmware jetzt drauf ist)
+# 4. Prüfen ob mpremote erreichbar ist (nach Full Build, da Firmware jetzt drauf ist)
 # ---------------------------------------------------------------------------
-Write-Host "[5/8] Prüfe mpremote..." -ForegroundColor Yellow
+Write-Host "[4/7] Prüfe mpremote..." -ForegroundColor Yellow
 try {
     & python -m mpremote connect port:$Port fs ls > $null 2>&1
     if ($LASTEXITCODE -ne 0) {
@@ -210,9 +197,9 @@ catch {
 }
 
 # ---------------------------------------------------------------------------
-# 6. Python-Quelldateien kopieren - mit Retry pro Datei
+# 5. Python-Quelldateien kopieren - mit Retry pro Datei
 # ---------------------------------------------------------------------------
-Write-Host "[6/8] Kopiere Python-Quelldateien..." -ForegroundColor Yellow
+Write-Host "[5/7] Kopiere Python-Quelldateien..." -ForegroundColor Yellow
 $pyFiles = @("config.py", "dryer.py", "led.py", "web_server.py", "main.py")
 foreach ($file in $pyFiles) {
     if (-not (Test-Path $file)) {
@@ -232,7 +219,7 @@ foreach ($file in $pyFiles) {
 # ---------------------------------------------------------------------------
 # 7. Web-Verzeichnis und Assets kopieren
 # ---------------------------------------------------------------------------
-Write-Host "[7/8] Kopiere Web-Assets..." -ForegroundColor Yellow
+Write-Host "[6/7] Kopiere Web-Assets..." -ForegroundColor Yellow
 & python -m mpremote connect port:$port fs mkdir ":web" 2>$null
 
 $webFiles = @("index.html", "style.css", "logo.png", "Trocknerbutton.png", "LEDbutton.png")
@@ -254,7 +241,7 @@ foreach ($file in $webFiles) {
 # ---------------------------------------------------------------------------
 # 8. ESP32 neu starten
 # ---------------------------------------------------------------------------
-Write-Host "[8/8] Starte ESP32 neu..." -ForegroundColor Yellow
+Write-Host "[7/7] Starte ESP32 neu..." -ForegroundColor Yellow
 & python -m mpremote connect port:$Port reset
 if ($LASTEXITCODE -ne 0) {
     Write-Host "   Hinweis: Reset-Befehl gesendet (manueller Reset ggf. nötig)." -ForegroundColor Gray

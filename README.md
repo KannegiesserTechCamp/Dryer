@@ -78,24 +78,17 @@ pip install mpremote
 
 ### MicroPython-Firmware auf den ESP32 flashen
 
-Damit der ESP32 Python-Code ausführen kann, muss die MicroPython-Firmware aufgespielt werden:
+Die passende MicroPython-Firmware ist bereits in `fw\installation.exe` enthalten. Beim Ausführen der Datei wird der ESP32 vollständig gelöscht und die Firmware aufgespielt. PyInstaller, das Python-Paket `esptool` und eine manuelle Firmware-Datei werden für die normale Installation nicht benötigt. Das mitgelieferte `ESPTool\esptool.exe` wird nur verwendet, wenn zusätzlich `fs\spiffs.bin` geflasht wird.
 
-1. Lade die passende MicroPython-Firmware für den ESP32 herunter (z. B. von [micropython.org](https://micropython.org/download/esp32/)).
+1. Schließe den ESP32 per USB an deinen Laptop an und ermittle den COM-Port (im Windows-Geräte-Manager unter „Anschlüsse (COM & LPT)“).
 
-2. Installiere `esptool.py` falls noch nicht vorhanden:
-
-   ```powershell
-   pip install esptool
-   ```
-
-3. Schließe den ESP32 per USB an deinen Laptop an und ermittele den COM-Port (im Windows-Geräte-Manager unter “Anschlüsse (COM & LPT)”).
-
-4. Lösche den ESP32 und spiele die Firmware auf (ersetze `COMx` durch deinen Port und `firmware.bin` durch die heruntergeladene Datei):
+2. Starte die Installation aus dem Projektordner mit dem Deployment-Skript. Ersetze `COM3` durch den COM-Port deines ESP32:
 
    ```powershell
-   python -m esptool --port COMx erase_flash
-   python -m esptool --port COMx --baud 460800 write_flash -z 0x1000 firmware.bin
+    .\deploy.ps1 -Port COM3
    ```
+
+Das Deployment flasht zuerst die Firmware über `fw\installation.exe`, schreibt danach optional `fs\spiffs.bin` in den Filesystem-Bereich und überträgt anschließend die Python- und Web-Dateien.
 
 ## USB-Treiber NodeMCU CP2102 (ESP 32)
 
@@ -135,7 +128,7 @@ Damit der ESP32 Python-Code ausführen kann, muss die MicroPython-Firmware aufge
 
 ## Code auf den ESP32 übertragen und starten
 
-Das Standard-Deployment erfolgt mit PowerShell und `deploy.ps1`. Das Skript führt einen Full Build durch und löscht dabei den Flash-Speicher des ESP32. Dabei werden optional das Filesystem, anschließend die Firmware sowie die Python- und Web-Dateien übertragen.
+Das Standard-Deployment erfolgt mit PowerShell und `deploy.ps1`. Das Skript führt einen Full Build durch. Dabei wird der Flash-Speicher durch `fw\installation.exe` gelöscht, anschließend die Firmware geschrieben, optional das Filesystem übertragen und danach werden die Python- und Web-Dateien kopiert.
 
 > **Wichtiger Hinweis:** Beim Full Build wird der Flash-Speicher gelöscht. Sichere benötigte Daten vorher und führe das Skript nur aus, wenn der richtige COM-Port angeschlossen ist.
 
@@ -158,7 +151,27 @@ Voraussetzungen:
     .\deploy.ps1 -Port COM3
    ```
 
-    Ersetze `COM3` durch den COM-Port deines ESP32. Der Full Build löscht zunächst den Flash, schreibt `fs\spiffs.bin` optional an Adresse `0x290000`, führt `fw\installation.exe` aus und überträgt anschließend die Dateien aus `pytrockner/`, die Root-Python-Dateien und die Web-Assets. Bei Datei- und Firmware-Schritten werden Fehler begrenzt wiederholt; bei einem endgültigen Fehler bricht das Deployment ab.
+    Ersetze `COM3` durch den COM-Port deines ESP32. Der Full Build führt die folgenden Schritte aus:
+
+    1. `fw\installation.exe` löscht den Flash und schreibt die MicroPython-Firmware.
+    2. `fs\spiffs.bin` wird optional an Adresse `0x290000` geschrieben.
+    3. Die Dateien aus `pytrockner/`, die Root-Python-Dateien und die Web-Assets werden übertragen.
+
+    Bei Datei- und Firmware-Schritten werden Fehler begrenzt wiederholt; bei einem endgültigen Fehler bricht das Deployment ab.
+
+### Ablauf von `deploy.ps1`
+
+Das Skript führt die folgenden Schritte automatisch aus:
+
+1. **Firmware installieren:** `fw\installation.exe` erkennt den angeschlossenen ESP32, löscht den Flash vollständig und schreibt die eingebettete MicroPython-Firmware. Der Firmware-Schritt wird bei einem Fehler bis zu dreimal versucht.
+2. **Filesystem übertragen:** Wenn `fs\spiffs.bin` vorhanden ist, wird das Image mit `ESPTool\esptool.exe` an die Adresse `0x290000` geschrieben. Fehlt die Datei, wird dieser Schritt übersprungen.
+3. **Ältere Python-Struktur übertragen:** Die Dateien aus `pytrockner/` werden rekursiv auf den ESP32 kopiert. Übertragen werden Python-, JSON-, TXT- und MPY-Dateien.
+4. **Verbindung mit `mpremote` prüfen:** Das Skript testet, ob der ESP32 am angegebenen COM-Port erreichbar ist.
+5. **Aktive Root-Python-Dateien übertragen:** `config.py`, `dryer.py`, `led.py`, `web_server.py` und `main.py` werden in das Hauptverzeichnis des ESP32 kopiert. Jeder Datei-Upload wird bei einem Fehler bis zu dreimal versucht.
+6. **Weboberfläche übertragen:** Das Verzeichnis `web` wird angelegt. Danach werden `index.html`, `style.css`, `logo.png`, `Trocknerbutton.png` und `LEDbutton.png` kopiert.
+7. **ESP32 neu starten:** Nach einem Soft Reset startet der ESP32 mit den übertragenen Dateien. Anschließend kann die Weboberfläche über die ausgegebene IP-Adresse geöffnet werden.
+
+Schlägt ein notwendiger Schritt endgültig fehl, beendet `deploy.ps1` das Deployment mit einer Fehlermeldung. Der richtige COM-Port muss deshalb angeschlossen sein. Beim Firmware-Schritt wird der vollständige Flash gelöscht; vorhandene Daten auf dem ESP32 gehen dabei verloren.
 
 4. Nach dem Neustart startet `main.py` automatisch. Die serielle Ausgabe zeigt die IP-Adresse des Access Points an, z. B.:
 
@@ -186,7 +199,7 @@ Der aktive Webbetrieb verwendet die Python-Dateien im Projektstamm:
 | `led.py` | Steuerung des NeoPixel-LED-Streifens mit Atmungseffekt (Helligkeit auf und ab). |
 | `web_server.py` | Kleiner asynchroner HTTP-Server. Liefert die Weboberfläche aus (`web/`) und verarbeitet POST-Anfragen für Bewegung und Licht. |
 | `web/` | HTML-, CSS- und Bilddateien für die Weboberfläche. |
-| `deploy.ps1` | PowerShell-Full-Build: Flash löschen, optionales Filesystem und Firmware installieren, Dateien übertragen und ESP32 zurücksetzen. |
+| `deploy.ps1` | PowerShell-Full-Build: Firmware installieren, optionales Filesystem und Dateien übertragen sowie den ESP32 zurücksetzen. |
 | `deploy_backup.ps1` | Ältere Minimalvariante ohne Flash-Löschung und Firmware-Installation. |
 
 Zusätzliche Verzeichnisse:
@@ -195,7 +208,7 @@ Zusätzliche Verzeichnisse:
 |-------------|--------------|
 | `pytrockner/` | Ältere bzw. lehrorientierte Steuerungsstruktur mit eigenen Motor- und LED-Modulen. Sie enthält eine andere Motoransteuerung als `dryer.py`; für den dokumentierten Webbetrieb ist der Root-Pfad maßgeblich. |
 | `fs/` | Binäres Filesystem-Image `spiffs.bin`, das vom Full Build optional geflasht wird. |
-| `fw/` | Mitgelieferte Firmware-Installation `installation.exe` und zugehörige Laufzeitdateien. |
+| `fw/` | Mitgelieferte Firmware-Installation `installation.exe`. Die EXE enthält den Flasher und die passende MicroPython-Firmware. |
 
 Die Weboberfläche in `web/` bietet Tasten für die Bewegung nach links, die Bewegung nach rechts und Stopp sowie einen Lichtschalter. Der ESP32 verarbeitet dafür unter anderem `POST /movement/left`, `POST /movement/right`, `POST /movement/stop` und `POST /light`.
 
