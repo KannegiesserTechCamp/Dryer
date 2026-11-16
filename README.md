@@ -183,10 +183,6 @@ Schlägt ein notwendiger Schritt endgültig fehl, beendet `deploy.ps1` das Deplo
 
 5. Verbinde dein Smartphone oder deinen Laptop mit dem in `config.py` festgelegten WLAN und öffne im Browser die angezeigte IP-Adresse (standardmäßig `http://192.168.4.1`).
 
-### Backup-Deployment
-
-`deploy_backup.ps1` ist eine ältere Minimalvariante. Sie löscht den Flash nicht, flasht keine Firmware und kopiert nur die Root-Python-Dateien sowie die Web-Assets. Verwende sie nur, wenn der bestehende Firmware- und Filesystem-Stand erhalten bleiben soll.
-
 ## Projektstruktur
 
 Der aktive Webbetrieb verwendet die Python-Dateien im Projektstamm:

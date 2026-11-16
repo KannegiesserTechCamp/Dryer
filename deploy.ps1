@@ -113,8 +113,10 @@ if (-not (Test-Path $spiffsFile)) {
 } else {
     Write-Host "[FB/2] Lade Filesystem (spiffs.bin)..." -ForegroundColor Yellow
     Write-Host "   Datei: $spiffsFile" -ForegroundColor Gray
-    & $esptoolPath --port $port write_flash 0x290000 "$spiffsFile"
-    if ($LASTEXITCODE -ne 0) {
+    $ok = Invoke-WithRetry -Name "Filesystem-Upload" -MaxAttempts $MaxAttempts -DelaySeconds $RetryDelaySeconds -Action {
+    & $esptoolPath --port $Port write_flash 0x290000 "$spiffsFile"
+    }
+    if (-not $ok) {
         Write-Host "   FEHLER beim Filesystem-Upload! Full Build abgebrochen." -ForegroundColor Red
         exit 1
     }
